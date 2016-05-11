@@ -1,9 +1,11 @@
 import nltk
+nltk.download('punkt')
+from nltk import sent_tokenize
 import re
 
 
 def sentences_splitter(raw_text):
-    return nltk.sent_tokenize(raw_text)
+    return sent_tokenize(raw_text)
 
 
 def remove_punctuation(value):
