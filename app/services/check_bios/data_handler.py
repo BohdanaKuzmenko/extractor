@@ -35,6 +35,11 @@ class DataHandler(object):
     def chunk_to_db(engine_to, chunk, table_name):
         chunk.to_sql(name=table_name, con=engine_to)
 
+    @staticmethod
+    def chunk_to_exel(chunk, file_name, header=False, index=False, mode='a'):
+        writer = pd.ExcelWriter(file_name)
+        chunk.to_excel(writer, 'Sheet1', engine='xlsxwriter', header=header, index=index)
+        writer.save()
 
 if __name__ == '__main__':
     pass

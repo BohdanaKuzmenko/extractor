@@ -1,12 +1,17 @@
 {% extends "index.html" %}
 {% block data %}
 <section  class="tm-content-box margin-b-10">
-    <form action="/get_result_file">
-            <input type="submit"  class = "button" value="Get results file">
-    </form>
     <div class="result" style="white-space:pre;overflow:auto;width:100%;">
         {{data|safe}}
     </div>
+ 
+        <form action="/get_result_file" style="float: right; display: inline;">
+            <input type="submit"  class = "button" value="Get results file">
+        </form>
+        <form action="/get_no_extraction_file" style="float: right; display: inline;">
+            <input type="submit"  class = "button" value="Get file with not extracted">
+        </form>
+    
 </section>
 {% endblock %}
 

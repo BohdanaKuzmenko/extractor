@@ -1,5 +1,5 @@
 from app import app
-from flask import Response, render_template, request, redirect, url_for, send_from_directory
+from flask import Response, render_template, request, redirect, url_for, send_from_directory, send_file
 from ..services.check_bios.main import *
 from werkzeug.utils import secure_filename
 import os
@@ -8,7 +8,7 @@ from io import StringIO
 # import csv
 
 MAX_FILE_SIZE = 1024 * 1024 + 1
-app.config['UPLOAD_FILE'] = 'app/models/full_data.xlsx'
+app.config['UPLOAD_FILE'] = 'app/models/full_data.csv'
 ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
 
 
@@ -47,4 +47,10 @@ def upload_file():
 
 @app.route('/get_result_file', methods=['GET', 'POST'])
 def get_result_file():
-    return send_from_directory(app.static_folder, "test.csv")
+    return send_file("static/result.xlsx", mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', as_attachment = True, attachment_filename="result.xlsx")
+
+@app.route('/get_no_extraction_file', methods=['GET', 'POST'])
+def get_no_extractions_file():
+    return send_file("static/no_extractions.xlsx", mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', as_attachment = True, attachment_filename="no_extraction_file.xlsx")
+
+
