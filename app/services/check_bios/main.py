@@ -27,7 +27,7 @@ def predict(bios, regexes):
             gotten_spec = []
             sentences_frames = []
             for value in sentences_with_regexes:
-                index, sentence, regexes, indexes = value
+                index, sentence, suitable_regexes, indexes = value
                # predicted_areas, predicted_spec = Predictor.get_predictions(
                #     'app/services/check_bios/Master_list_for_PA.csv', sentence)
                # gotten_pr_areas.extend(predicted_areas)
@@ -37,7 +37,7 @@ def predict(bios, regexes):
                 data_frame["sentences_num"] = pd.DataFrame([len(sentences_with_regexes)]).values
                 data_frame["sentence_index"] = pd.DataFrame([index]).values
                 data_frame["sentence"] = pd.DataFrame([sentence]).values
-                data_frame["regexes"] = pd.DataFrame([regexes])
+                data_frame["regexes"] = pd.DataFrame([suitable_regexes])
                 data_frame["regexes_index"] = pd.DataFrame([indexes])
                 data_frame["practice_areas"] = pd.DataFrame([', '.join(db_practice_areas)]).values
                # data_frame["predicted_pract_area"] = pd.DataFrame([', '.join(set(predicted_areas))]).values
@@ -48,6 +48,12 @@ def predict(bios, regexes):
     DataHandler.chunk_to_exel(df_predictions, "app/static/result.xlsx", header=True, mode='w')
     DataHandler.chunk_to_exel(df_no_extractions, "app/static/no_extractions.xlsx", header=True, mode='w')
     return df_predictions
+
+
+def get_all_specialities():
+
+     all_spec=[]
+     print([all_spec.extend(value.split(',')) for value in next(DataHandler.get_csv_values('app/models/full_data.csv'))['specialty'].fillna('').values.tolist()])
 
 
 def get_bios(source, source_text):
@@ -64,3 +70,6 @@ def get_bios(source, source_text):
 def get_regexes(raw_regex):
     if raw_regex:
         return [(r.replace('\r', '')) for r in raw_regex.split('\n')]
+
+if __name__ == "__main__":
+    get_all_specialities()
