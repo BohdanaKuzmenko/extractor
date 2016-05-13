@@ -4,15 +4,6 @@ from pandas import DataFrame, set_option
 STOP_WORDS = ["prior to", "before joining"]
 
 
-def get_suitable_regex(sentence, regexes):
-    for regex in regexes:
-        pattern = re.compile(regex)
-        if re.search(pattern, sentence):
-            suitable = (regex, str(regexes.index(regex) + 1))
-            return suitable
-    return []
-
-
 def extract_sentences(link, full_bio, regexes):
     set_option('display.max_colwidth', -1)
     sentences = sentences_splitter(full_bio)

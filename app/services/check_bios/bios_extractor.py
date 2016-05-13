@@ -11,5 +11,4 @@ class BiosExtractor(object):
         print(link)
         full_bio = ' '.join(full_bio.split())
         sentences_with_regexes = extract_sentences(link, full_bio, self.regexes)
-        print(sentences_with_regexes)
         return (sentences_with_regexes)
