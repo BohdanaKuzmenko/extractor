@@ -39,6 +39,7 @@ def check_bios():
 
     if not ai_result.empty or not ldb_result.empty:
         return render_template("result_tmp.html", ai_data=ai_result.to_html(), ldb_data=ldb_result.to_html(),
+                               ai_data_len = ai_result['profileUrl'].count(), ldb_data_len = ldb_result['profileUrl'].count(),
                                equals=equals, ai_only=ai_only, ldb_only=ldb_only,
                                ldb_only_table=ldb_only_table.to_html())
     return redirect(url_for('index'))

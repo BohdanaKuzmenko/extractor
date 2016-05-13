@@ -1,8 +1,5 @@
 {% extends "index.html" %}
 {% block data %}
-
-
-<!--<div class="row-fluid">-->
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
         <script>
@@ -12,40 +9,75 @@
                 } );
             } );
         </script>
-    <!--<div class="span6">-->
-        <!-- block -->
+
+<!--Live DB-->
         <div class="block table">
             <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Users</div>
-                <div class="pull-right"><span class="badge badge-info">1,234</span>
+                <div class="muted pull-left">LDB</div>
+                <div class="pull-right"><span class="badge badge-info">{{ldb_data_len}}</span>
 
                 </div>
             </div>
             <div class="block-content collapse in">
-
-                <!--<table class="table table-striped">-->
                 {{ldb_data|safe}}
 
             </div>
         </div>
 <br>
 <br>
+<!--Predictions-->
         <div class="block table">
             <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Users</div>
-                <div class="pull-right"><span class="badge badge-info">1,234</span>
+                <div class="muted pull-left">UI_results</div>
+                <div class="pull-right"><span class="badge badge-info">{{ai_data_len}}</span>
 
                 </div>
             </div>
             <div class="block-content collapse in">
-
-                <!--<table class="table table-striped">-->
                 {{ai_data|safe}}
 
             </div>
         </div>
-        <!-- /block -->
-    <!--</div>-->
-<!--</div>-->
+
+<div class="row-fluid">
+
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Statistics</div>
+                                <div class="pull-right"><span class="badge badge-warning"></span>
+
+                                </div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span3">
+                                    <div class="chart" data-percent="73">{{equals}}</div>
+                                    <span class="label label-info">Equals</span>
+                                </div>
+                                <div class="span3">
+                                    <div class="chart" data-percent="73">{{ldb_only}}</div>
+                                    <span class="label label-info">LDB only</span>
+                                </div>
+                                <div class="span3">
+                                    <div class="chart" data-percent="73">{{ai_only}}</div>
+                                    <span class="label label-info">AI only</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<div class="block table">
+            <div class="navbar navbar-inner block-header">
+                <div class="muted pull-left">Not recognized ldb bios</div>
+                <div class="pull-right"><span class="badge badge-info">{{ldb_only}}</span>
+
+                </div>
+            </div>
+            <div class="block-content collapse in">
+                {{ldb_only_table|safe}}
+
+            </div>
+        </div>
+
+<!--Statistics-->
 
     {% endblock %}

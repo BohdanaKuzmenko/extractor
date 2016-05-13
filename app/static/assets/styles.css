@@ -17,6 +17,10 @@ margin: 0 auto;
 width:80%;
 }
 
+.container-fluid{
+margin-right: 4%;
+}
+
 textarea {
 width:100%;
 }
@@ -39,7 +43,6 @@ margin-right: 9%;
 .block-content.collapse.in table{
     align: center;
 }
-
 
 
 /** 2 level sub menu **/
