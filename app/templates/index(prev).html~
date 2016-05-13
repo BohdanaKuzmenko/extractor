@@ -1,0 +1,30 @@
+
+                    <form id="frmMain" name= "frmMain" action="/checkbios" method="post">
+
+                        <!--Regex specialities-->
+                        <section  class="ldb tm-content-box margin-b-10">
+                            specialityRegex: <textarea id="spec_regex" name="spec_regex"  rows="1">Insurance</textarea>
+</textarea>
+                        </section>
+
+
+                        <!--Source checker-->
+                        <section  class="tm-content-box margin-b-10">
+                            <input type="radio"  id="from_file" name="source" value  = "from_file" onclick="javascript:document.frmMain.mname.hidden=document.frmMain.from_file.checked" checked /> From file
+                            <input type="radio"  id="from_url" name="source" value  = "from_url" onclick="javascript:document.frmMain.mname.hidden=!document.frmMain.from_url.checked" /> From url
+                            <input type="radio"  id="from_text" name="source" value  = "from_text" onclick="javascript:document.frmMain.mname.hidden=!document.frmMain.from_text.checked "  /> From biography text
+                            <br>
+                            <textarea hidden=true id="mname" name="source_text" rows="5"></textarea>
+                        </section>
+
+
+                        <!--Regexes area-->
+                        <section  class="tm-content-box margin-b-10">
+                            <p class="tm-section-description">Regexes:</p>
+                            <textarea id="regex" name="regexes" rows="5">(?i)litigation</textarea>
+                        </section>
+
+
+
+                    </form>
+                    
