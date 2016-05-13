@@ -1,8 +1,5 @@
 from app.services.check_bios.text_normalizer import *
-from pandas import DataFrame, concat, set_option
-from app.services.check_bios.data_filter import *
-from app.services.check_bios.main import Predictor
-import multiprocessing
+from pandas import DataFrame, set_option
 
 STOP_WORDS = ["prior to", "before joining"]
 
@@ -29,21 +26,6 @@ def extract_sentences(link, full_bio, regexes):
         data_frame["full_bio"] = DataFrame([full_bio]).values
         data_frame["regex"] = DataFrame(['; '.join(suitable_regexes)]).values
         return (data_frame)
-
-
-def get_results(source, source_text, raw_regex, specialities_regex_filter):
-    needed_bios = get_bios(source, source_text)
-    regexes = get_regexes(raw_regex)
-    bios_per_spec = get_bios_per_spec(specialities_regex_filter)
-    predicted_result = DataFrame()
-    if needed_bios and raw_regex:
-        predictor = Predictor(regexes)
-        pool = multiprocessing.Pool(4)
-        table = pool.map(predictor.predict, needed_bios)
-        predicted_result = concat(table)
-    return predicted_result, bios_per_spec
-
-
 
 
 if __name__ == '__main__':

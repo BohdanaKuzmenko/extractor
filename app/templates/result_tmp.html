@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+{% block data %}
+
+
+<!--<div class="row-fluid">-->
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('table.dataframe').DataTable( {
+                    "pagingType": "full_numbers"
+                } );
+            } );
+        </script>
+    <!--<div class="span6">-->
+        <!-- block -->
+        <div class="block table">
+            <div class="navbar navbar-inner block-header">
+                <div class="muted pull-left">Users</div>
+                <div class="pull-right"><span class="badge badge-info">1,234</span>
+
+                </div>
+            </div>
+            <div class="block-content collapse in">
+
+                <!--<table class="table table-striped">-->
+                {{ldb_data|safe}}
+
+            </div>
+        </div>
+<br>
+<br>
+        <div class="block table">
+            <div class="navbar navbar-inner block-header">
+                <div class="muted pull-left">Users</div>
+                <div class="pull-right"><span class="badge badge-info">1,234</span>
+
+                </div>
+            </div>
+            <div class="block-content collapse in">
+
+                <!--<table class="table table-striped">-->
+                {{ai_data|safe}}
+
+            </div>
+        </div>
+        <!-- /block -->
+    <!--</div>-->
+<!--</div>-->
+
+    {% endblock %}

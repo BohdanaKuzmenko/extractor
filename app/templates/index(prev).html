@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Prediction service</title>
+
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400">
+        <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+
+    </head>
+
+
+    <body>
+        <div class="ldb">
+            {% block ldb %}{% endblock %}
+        </div>
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('table.dataframe').DataTable( {
+                    "pagingType": "full_numbers"
+                } );
+            } );
+        </script>
+
+        <div class="container">
+            <div class="tm-main-content">
+                <section id="home" class="tm-content-box tm-banner margin-b-10">
+                    <div class="tm-banner-inner">
+                        <h1 class="tm-banner-title">Prediction service</h1>
+                    </div>
+                </section>
+        <div class="prediction">
+                    <form  id="file_upload" action="/file_upload">
+                        <input id = 'upload'  type="image" src="{{ url_for('static',filename='images/other_file_icon.png') }}" alt="Submit Form" /> Update file(optional)
+                    </form>
+                    <br>
+
+                    <form id="frmMain" name= "frmMain" action="/checkbios" method="post">
+
+                        <!--Regex specialities-->
+                        <section  class="ldb tm-content-box margin-b-10">
+                            specialityRegex: <textarea id="spec_regex" name="spec_regex"  rows="1">Insurance</textarea>
+</textarea>
+                        </section>
+
+
+                        <!--Source checker-->
+                        <section  class="tm-content-box margin-b-10">
+                            <input type="radio"  id="from_file" name="source" value  = "from_file" onclick="javascript:document.frmMain.mname.hidden=document.frmMain.from_file.checked" checked /> From file
+                            <input type="radio"  id="from_url" name="source" value  = "from_url" onclick="javascript:document.frmMain.mname.hidden=!document.frmMain.from_url.checked" /> From url
+                            <input type="radio"  id="from_text" name="source" value  = "from_text" onclick="javascript:document.frmMain.mname.hidden=!document.frmMain.from_text.checked "  /> From biography text
+                            <br>
+                            <textarea hidden=true id="mname" name="source_text" rows="5"></textarea>
+                        </section>
+
+
+                        <!--Regexes area-->
+                        <section  class="tm-content-box margin-b-10">
+                            <p class="tm-section-description">Regexes:</p>
+                            <textarea id="regex" name="regexes" rows="5">(?i)litigation</textarea>
+                        </section>
+
+
+
+                    </form>
+                    <section>
+                        <button class = "button"  form="frmMain" onclick=""><span>Check bios </span></button>
+                    </section>
+                    <br>
+
+                    {% block data %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,7 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js">
     <head>
-        <meta charset="utf-8">
+        <title>Admin Home Page</title>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400">
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ url_for('static',filename='bootstrap/css/bootstrap-responsive.min.cs') }}" rel="stylesheet" media="screen">
+        <link href="{{ url_for('static',filename='vendors/easypiechart/jquery.easy-pie-chart.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ url_for('static',filename='assets/styles.css') }}" rel="stylesheet" media="screen">
+        <script src="{{ url_for('static',filename='vendors/modernizr-2.6.2-respond-1.1.0.min.js')}} "></script>
+    </head>
+
+
+
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,44 +22,18 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400">
         <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
 
-    </head>
-
 
     <body>
-        <div class="ldb">
-            {% block ldb %}{% endblock %}
-        </div>
-        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('table.dataframe').DataTable( {
-                    "pagingType": "full_numbers"
-                } );
-            } );
-        </script>
 
-        <div class="container">
-            <div class="tm-main-content">
-                <section id="home" class="tm-content-box tm-banner margin-b-10">
-                    <div class="tm-banner-inner">
-                        <h1 class="tm-banner-title">Prediction service</h1>
-                    </div>
-                </section>
-        <div class="prediction">
-                    <form  id="file_upload" action="/file_upload">
-                        <input id = 'upload'  type="image" src="{{ url_for('static',filename='images/other_file_icon.png') }}" alt="Submit Form" /> Update file(optional)
-                    </form>
-                    <br>
-
+        <div class="container-fluid">
+            <div class="row-fluid alert alert-success ">
                     <form id="frmMain" name= "frmMain" action="/checkbios" method="post">
 
                         <!--Regex specialities-->
                         <section  class="ldb tm-content-box margin-b-10">
-                            specialityRegex: <textarea id="spec_regex" name="spec_regex"  rows="1">Insurance</textarea>
-</textarea>
+                            specialityRegex: <textarea id="spec_regex" name="spec_regex" rows="1" tyle="width:100%; height: 150px;" >Insurance</textarea>
                         </section>
-
+                        <hr>
 
                         <!--Source checker-->
                         <section  class="tm-content-box margin-b-10">
@@ -58,6 +44,7 @@
                             <textarea hidden=true id="mname" name="source_text" rows="5"></textarea>
                         </section>
 
+                        <hr>
 
                         <!--Regexes area-->
                         <section  class="tm-content-box margin-b-10">
@@ -68,14 +55,27 @@
 
 
                     </form>
+
                     <section>
-                        <button class = "button"  form="frmMain" onclick=""><span>Check bios </span></button>
+                        <button id="start_checking" class = "button"  form="frmMain" onclick=""><span>Check bios </span></button>
                     </section>
-                    <br>
+            </div>
+            <div class="row-fluid">
+                <div class="span9" id="content">
 
                     {% block data %}{% endblock %}
-                </div>
+
+                        <!-- /block -->
+                    </div>
+              </div>
             </div>
+            <hr>
+
         </div>
+        <!--/.fluid-container-->
+        <script src="vendors/jquery-1.9.1.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="vendors/easypiechart/jquery.easy-pie-chart.js"></script>
     </body>
+
 </html>

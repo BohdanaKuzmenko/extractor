@@ -1,23 +1,25 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*
-import pandas as pd
-from app.services.check_bios.data_handler import DataHandler
-from app.services.check_bios.predictor import Predictor
+
+from app.services.check_bios.bios_extractor import BiosExtractor
 from app.services.check_bios.pr_areas_spec_handler import *
+from app.services.check_bios.data_filter import *
+import multiprocessing
+from pandas import concat
 
 
-class BiosExtractor(object):
-    def __init__(self, regexes):
-        self.regexes = regexes
+def get_results(bios, regexes, specialities_regex_filter):
+    ldb_result = get_bios_per_spec(specialities_regex_filter)
 
-    def predict(self, bio):
-        pd.set_option('display.max_colwidth', -1)
-        link, full_bio = bio
-        print(link)
-        full_bio = ' '.join(full_bio.split())
-        sentences_with_regexes = extract_sentences(link, full_bio, self.regexes)
-        print(sentences_with_regexes)
-        return (sentences_with_regexes)
+    ai_result = DataFrame()
+    if bios and regexes:
+        predictor = BiosExtractor(regexes)
+        pool = multiprocessing.Pool(1)
+        table = pool.map(predictor.predict, bios)
+        ai_result = concat(table, ignore_index=True)
+    return ai_result, ldb_result
+
+
 
 
 if __name__ == "__main__":
