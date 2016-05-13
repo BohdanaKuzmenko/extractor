@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Prediction service</title>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400">
+        <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.4.2.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-ui-1.8.custom.min.js') }}"></script>
+    </head>
+
+
+    <body>
+        <div class="ldb">
+            {% block ldb %}{% endblock %}
+        </div>
+        <script>
+            $(function() {
+                   $( "ul.sortable" ).sortable({
+                      connectWith: "ul",
+                    });
+            });
+        </script>
+        <div class="container">
+            <div class="tm-main-content">
+                <section id="home" class="tm-content-box tm-banner margin-b-10">
+                    <div class="tm-banner-inner">
+                        <h1 class="tm-banner-title">Prediction service</h1>
+                    </div>
+                </section>
+            </div>
+
+            <ul class="sortable" style="width: 524px;">
+                 {{ldb_data|safe}}
+            </ul>
+
+            <br>
+            <br>
+
+            <form id="file_upload" action="/index" method="post">
+                <p>CHOSEN SPECIALITIES</p>
+
+                <ul class="sortable" style="width: 524px;">
+                    <li id="000" hidde=true class="ui-state-default">test1</li>
+                </ul>
+                <input name="Submit" value="RE-ORDER" type="submit" />
+            </form>
+
+
+        </div>
+    </body>
+</html>
