@@ -26,6 +26,7 @@ def get_bios_per_spec(specialities_regex_filter):
     all_bios = next(DataHandler.get_csv_values('app/models/full_data.csv')).fillna('')
     filtered = all_bios[all_bios['specialty'].str.contains(specialities_regex_filter)]
     filtered['profileUrl'] = filtered['profileUrl'].apply(lambda x: '<a href="{}">{}</a>'.format(x,x))
+    filtered['attorneyBio'] = filtered['attorneyBio'].apply(lambda x: '<p title = "{}">{}</p>'.format(x, x[:100]))
     return filtered[['profileUrl', 'attorneyBio', 'practice_areas', 'specialty']]
 
 

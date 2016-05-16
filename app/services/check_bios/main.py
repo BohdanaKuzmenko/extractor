@@ -21,6 +21,7 @@ class Extractor(object):
         urls = list(set(concatenated["profileUrl"].values.tolist()))
         result = bios[bios["profileUrl"].isin(urls)]
         result['profileUrl'] = result['profileUrl'].apply(lambda x: '<a href="{}">{}</a>'.format(x,x))
+        result['attorneyBio'] = result['attorneyBio'].apply(lambda x: '<p title = "{}">{}</p>'.format(x, x[:50]))
         return result
 
 
