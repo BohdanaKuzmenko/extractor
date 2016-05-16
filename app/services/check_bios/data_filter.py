@@ -13,7 +13,7 @@ def get_all_specialities():
 def get_bios(source, source_text):
     if source == "from_file":
         all_data = next(DataHandler.get_csv_values('app/models/full_data.csv')).fillna('')
-        return all_data[['profileUrl', 'attorneyBio']].values.tolist()
+        return all_data[['profileUrl', 'attorneyBio']]
     if source == "from_url":
         urls = ([url.replace('\r', '') for url in source_text.split('\n')])
         df = next(DataHandler.get_csv_values('app/models/full_data.csv'))

@@ -1,10 +1,11 @@
 from app import app
 from flask import render_template, request, redirect, url_for, send_file
-from ..services.check_bios.main import get_results
+from ..services.check_bios.main import Predictor
 from ..services.check_bios.statistics import Statistics
 from app.services.check_bios.data_filter import *
 import os
 import pandas as pd
+import datetime
 
 pd.set_option('display.max_colwidth', 100)
 
@@ -25,6 +26,7 @@ def index():
 
 @app.route('/checkbios', methods=['POST'])
 def check_bios():
+    t1 = datetime.datetime.now()
     source = request.form.get('source')
     source_text = request.form.get('source_text')
     raw_regex = request.form.get('regexes')
@@ -32,14 +34,17 @@ def check_bios():
 
     needed_bios = get_bios(source, source_text)
     regexes = get_regexes(raw_regex)
-
-    ai_result, ldb_result = get_results(needed_bios, regexes, specialities_regex_filter)
+    predictor = Predictor(regexes)
+    ai_result = predictor.get_ai_results(needed_bios)
+    ldb_result =get_bios_per_spec(specialities_regex_filter)
 
     equals, ai_only, ldb_only, ldb_only_table = Statistics.get_all_statistics(ai_result, ldb_result, "profileUrl")
-
+    t2 = datetime.datetime.now()
+    print(t2-t1)
     if not ai_result.empty or not ldb_result.empty:
         return render_template("result_tmp.html", ai_data=ai_result.to_html(), ldb_data=ldb_result.to_html(),
-                               ai_data_len = ai_result['profileUrl'].count(), ldb_data_len = ldb_result['profileUrl'].count(),
+                               ai_data_len=ai_result['profileUrl'].count(),
+                               ldb_data_len=ldb_result['profileUrl'].count(),
                                equals=equals, ai_only=ai_only, ldb_only=ldb_only,
                                ldb_only_table=ldb_only_table.to_html())
     return redirect(url_for('index'))
