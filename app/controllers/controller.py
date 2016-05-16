@@ -49,7 +49,7 @@ def check_bios():
                                ai_data_len=ai_result['profileUrl'].count(),
                                ldb_data_len=ldb_result['profileUrl'].count(),
                                equals=equals, ai_only=ai_only, ldb_only=ldb_only,
-                               ldb_only_table=ldb_only_table.to_html())
+                               ldb_only_table=ldb_only_table.to_html(escape=False))
     return redirect(url_for('index'))
 
 
