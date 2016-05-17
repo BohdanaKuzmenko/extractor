@@ -10,7 +10,7 @@ import datetime
 pd.set_option('display.max_colwidth', -1)
 
 MAX_FILE_SIZE = 1024 * 1024 + 1
-app.config['UPLOAD_FILE'] = 'app/models/full_data.csv'
+app.config['UPLOAD_FILE'] = 'app/data/full_data.csv'
 ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
 
 

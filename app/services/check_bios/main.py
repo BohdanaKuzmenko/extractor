@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*
 
 import multiprocessing
-from pandas import concat, Series, set_option
+from pandas import concat,DataFrame, Series, set_option
 from app.services.check_bios.text_normalizer import sentences_splitter
 import numpy as np
 
@@ -20,10 +20,9 @@ class Extractor(object):
         concatenated = concat(pool_results)
         urls = list(set(concatenated["profileUrl"].values.tolist()))
         result = bios[bios["profileUrl"].isin(urls)]
-        result['profileUrl'] = result['profileUrl'].apply(lambda x: '<a href="{}">{}</a>'.format(x,x))
+        result['profileUrl'] = result['profileUrl'].apply(lambda x: '<a href="{}">{}</a>'.format(x, x))
         result['attorneyBio'] = result['attorneyBio'].apply(lambda x: '<p title = "{}">{}</p>'.format(x, x[:50]))
         return result
-
 
     def filter_with_regex(self, bio_df):
         splitted_bios = concat([Series(row['profileUrl'], sentences_splitter(row['attorneyBio']))
@@ -34,6 +33,7 @@ class Extractor(object):
         for regex in self.regexes:
             print(regex)
             tmp_df = splitted_bios
+            tmp_df['regexes'] = DataFrame([self.regexes.index(regex)]*len(tmp_df.attorneyBio.values))
             result.append(tmp_df[tmp_df['attorneyBio'].str.contains(regex)])
         return concat(result)
 
