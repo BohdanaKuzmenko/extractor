@@ -12,6 +12,23 @@ body {
     }
 }
 
+.dataframe.dataTable.no-footer {
+    width: 100%;
+}
+
+p.test{
+    width: 500px;
+    overflow: hidden;
+    white-space: nowrap;
+    }
+
+.test:hover{
+    overflow: visible; 
+    white-space: normal; 
+    width: auto;
+    }
+}
+
 form {
 margin: 0 auto;
 width:80%;

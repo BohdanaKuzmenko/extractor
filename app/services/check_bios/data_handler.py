@@ -42,4 +42,4 @@ class DataHandler(object):
         writer.save()
 
 if __name__ == '__main__':
-    pass
+    print(next(DataHandler.get_csv_values('full_data.csv')))
