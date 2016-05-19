@@ -1,4 +1,9 @@
 from app.services.check_bios.data_handler import DataHandler
+from multiprocessing import Pool
+from pandas import concat, DataFrame
+import numpy as np
+import itertools
+import datetime
 
 
 def get_all_specialities():
@@ -10,42 +15,53 @@ def get_all_specialities():
                      range(len(distinct_spec)) if distinct_spec[index]])
 
 
-def get_bios(source, source_text):
-    if source == "from_file":
-        all_data = next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
-        return all_data[['profileUrl', 'attorneyBio']]
-    if source == "from_url":
-        urls = ([url.replace('\r', '') for url in source_text.split('\n')])
-        df = next(DataHandler.get_csv_values('app/data/full_data.csv'))
-        return df[df['profileUrl'].isin(urls)].fillna('').values.tolist()
-    if source == "from_text":
-        return [('no_link', source_text, 'no_pract_area', 'no_specialities')]
+def get_bios():
+    return next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
+
+
+def filter_bios(df, regex):
+    return df[df.attorneyBio.str.contains(regex)][['profileUrl', 'attorneyBio']]
 
 
 def get_bios_per_spec(specialities_regex_filter):
     all_bios = next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
     filtered = all_bios[all_bios['specialty'].str.contains(specialities_regex_filter)]
-    filtered['profileUrl'] = filtered['profileUrl'].apply(lambda x: '<a href="{}">{}</a>'.format(x, x))
-    filtered['attorneyBio'] = filtered['attorneyBio'].apply(lambda x: '<p title = "{}">{}</p>'.format(x, x[:100]))
+    filtered['profileUrl'] = filtered['profileUrl'].apply(lambda x: '<p class = "link"><a href="{}">{}</a></p>'.format(x, x))
+    filtered['attorneyBio'] = filtered['attorneyBio'].apply(lambda x: '<p class ="test">{}</p>'.format(x))
     return filtered[['profileUrl', 'attorneyBio', 'practice_areas', 'specialty']]
 
 
-def get_regexes(raw_regex):
+def get_regexes_frames(raw_regex):
     regexes = []
     if raw_regex:
         regexes = [(r.replace('\r', '')) for r in raw_regex.split('\n')]
 
     sub_regexes_df = DataHandler.get_spread_sheet_values('1dGKAXcZze3n6ypzdHUVrsULx5e-8sfkmYO2Ow3jagHE', 'ContextREGEX')
     sub_regexes = DataHandler.df_to_dict(sub_regexes_df, "SR ID", "SubREGEX")
+
     content_regexes_df = DataHandler.get_spread_sheet_values('1dGKAXcZze3n6ypzdHUVrsULx5e-8sfkmYO2Ow3jagHE',
                                                              'ContentREGEX')
     content_regexes = DataHandler.df_to_dict(content_regexes_df, "Content REG ID", "KeyWord")
+
     merged_regexes = sub_regexes.copy()
     merged_regexes.update(content_regexes)
 
-    result_regex_list = []
-    for regex in regexes:
-        result_regex_list.append(''.join(
-            [merged_regexes.get(value) if value in merged_regexes.keys() else value for value in regex.split("@")]))
+    joined_regexes_df = DataHandler.get_spread_sheet_values('1dGKAXcZze3n6ypzdHUVrsULx5e-8sfkmYO2Ow3jagHE',
+                                                            'JoinedREGEX')
+    joined_regexes = DataHandler.df_to_dict(joined_regexes_df, "JOIN REG ID",
+                                            ["JOINED REGEX", "REG score", "PA", "SP", "CN ID"])
 
-    return result_regex_list
+    result_regex_list = []
+
+    for regex in regexes:
+        joined_regex = joined_regexes['JOINED REGEX'].get(regex)
+
+        df = DataFrame([''.join([merged_regexes.get(value) if value in merged_regexes.keys() else value for value in
+                                 joined_regex.split("@")])], columns=["regex"])
+        df['score'] = DataFrame([joined_regexes['REG score'].get(regex)]).values
+        df['pract_areas'] = DataFrame([joined_regexes['PA'].get(regex)]).values
+        df['specialties'] = DataFrame([joined_regexes['SP'].get(regex)]).values
+        df['content_regex'] = DataFrame([joined_regexes['CN ID'].get(regex)]).values
+        result_regex_list.append(df)
+
+    return (concat(result_regex_list), content_regexes_df)

@@ -5,7 +5,8 @@ import re
 
 
 def sentences_splitter(raw_text):
-    return sent_tokenize(raw_text)
+    sentences = sent_tokenize(raw_text)
+    return [(sentence_index+1, sentences[sentence_index]) for sentence_index in range(len(sentences))]
 
 
 def remove_punctuation(value):
