@@ -46,7 +46,7 @@ def get_regexes_frames(raw_regex):
     joined_regexes_df = DataHandler.get_spread_sheet_values('1dGKAXcZze3n6ypzdHUVrsULx5e-8sfkmYO2Ow3jagHE',
                                                             'JoinedREGEX')
     joined_regexes = DataHandler.df_to_dict(joined_regexes_df, "JOIN REG ID",
-                                            ["JOINED REGEX", "REG score", "PA", "SP", "CN ID"])
+                                            ["JOINED REGEX", "REG score", "PA", "SP", "CN ID", "CX ID"])
 
     result_regex_list = []
 
@@ -60,6 +60,7 @@ def get_regexes_frames(raw_regex):
         df['pract_areas'] = DataFrame([joined_regexes['PA'].get(regex)]).values
         df['specialties'] = DataFrame([joined_regexes['SP'].get(regex)]).values
         df['content_regex'] = DataFrame([joined_regexes['CN ID'].get(regex)]).values
+        df['context_regex'] = DataFrame([joined_regexes['CX ID'].get(regex)]).values
         result_regex_list.append(df)
 
     return (concat(result_regex_list), content_regexes_df)

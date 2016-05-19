@@ -25,7 +25,7 @@ class Extractor(object):
             lambda x: '<p class = "link"><a href="{}">{}</a></p>'.format(x, x))
         concatenated['sentence'] = concatenated['sentence'].apply(lambda x: '<p class = "test">{}</p>'.format(x))
         return concatenated[
-            ['profileUrl', 'sentence', 'sent_num', 'content', 'joined', 'practice_areas',
+            ['profileUrl', 'sentence', 'sent_num', 'content', 'context', 'joined', 'practice_areas',
              'specialties', 'score']]
 
     def filter_with_regex(self, bio_df):
@@ -57,9 +57,11 @@ class Extractor(object):
                     pr_areas = list(set(current_regex_info_df["pract_areas"].values.tolist()))
                     score = list(set(current_regex_info_df["score"].values.tolist()))
                     specialties = list(set(current_regex_info_df["specialties"].values.tolist()))
+                    context_regex = list(set(current_regex_info_df["context_regex"].values.tolist()))
 
                     regex_df['content'] = DataFrame(
                         [content_regex_key] * len(regex_df.attorneyBio.values)).values
+                    regex_df['context'] = DataFrame([context_regex] * len(regex_df.attorneyBio.values)).values
                     regex_df['joined'] = DataFrame([regex_index] * len(regex_df.attorneyBio.values)).values
                     regex_df['practice_areas'] = DataFrame(pr_areas * len(regex_df.attorneyBio.values)).values
                     regex_df['specialties'] = DataFrame(specialties * len(regex_df.attorneyBio.values)).values
