@@ -1,9 +1,6 @@
 from app.services.check_bios.data_handler import DataHandler
-from multiprocessing import Pool
 from pandas import concat, DataFrame
-import numpy as np
-import itertools
-import datetime
+
 
 
 def get_all_specialities():
