@@ -5,9 +5,8 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/credentials/extractor-3fb583056fd4.json" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/services/check_bios/data_filter.py" afterPath="$PROJECT_DIR$/app/services/check_bios/data_filter.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes/routes.py" afterPath="$PROJECT_DIR$/app/routes/routes.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/services/check_bios/main.py" afterPath="$PROJECT_DIR$/app/services/check_bios/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/static/assets/styles.css" afterPath="$PROJECT_DIR$/app/static/assets/styles.css" />
     </list>
     <ignored path="comparison_service.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,11 +27,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="routes.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/routes/routes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-31.709677">
+              <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="data_filter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_filter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="56" column="70" selection-start-line="56" selection-start-column="70" selection-end-line="56" selection-end-column="70" />
+              <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
               <folding>
                 <element signature="e#0#60#0" expanded="true" />
               </folding>
@@ -72,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/services/check_bios/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.419355">
-              <caret line="25" column="73" selection-start-line="25" selection-start-column="73" selection-end-line="25" selection-end-column="73" />
+            <state vertical-scroll-proportion="0.18789144">
+              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding>
                 <element signature="e#42#64#0" expanded="true" />
               </folding>
@@ -84,10 +93,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/static/assets/styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21176471">
+            <state vertical-scroll-proportion="0.0">
               <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
               <folding />
             </state>
@@ -98,20 +107,10 @@
         <entry file="file://$PROJECT_DIR$/tests/test_main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+              <caret line="16" column="36" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="40" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="data_handler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_handler.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="22" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="22" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -122,18 +121,11 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding>
-                <element signature="e#0#29#0" expanded="true" />
+                <marker date="1463656634313" expanded="true" signature="0:78" placeholder="import ..." />
+                <marker date="1463656634313" expanded="true" signature="112:860" placeholder="..." />
+                <marker date="1463656634313" expanded="true" signature="143:328" placeholder="..." />
+                <marker date="1463656634313" expanded="true" signature="361:592" placeholder="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="text_normalizer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/services/check_bios/text_normalizer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -177,7 +169,6 @@
         <option value="$PROJECT_DIR$/app/templates/index.html" />
         <option value="$PROJECT_DIR$/app/templates/result.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/app/routes/routes.py" />
         <option value="$PROJECT_DIR$/app/templates/result_tmp.html" />
         <option value="$PROJECT_DIR$/app/services/check_bios/text_normalizer.py" />
         <option value="$PROJECT_DIR$/app/services/check_bios/statistics.py" />
@@ -185,10 +176,11 @@
         <option value="$PROJECT_DIR$/tests/text_normalizer.py" />
         <option value="$PROJECT_DIR$/tests/test_data_filter.py" />
         <option value="$PROJECT_DIR$/tests/test_text_normalizer.py" />
-        <option value="$PROJECT_DIR$/tests/test_main.py" />
         <option value="$PROJECT_DIR$/app/services/check_bios/data_filter.py" />
-        <option value="$PROJECT_DIR$/app/services/check_bios/main.py" />
         <option value="$PROJECT_DIR$/app/static/assets/styles.css" />
+        <option value="$PROJECT_DIR$/tests/test_main.py" />
+        <option value="$PROJECT_DIR$/app/routes/routes.py" />
+        <option value="$PROJECT_DIR$/app/services/check_bios/main.py" />
       </list>
     </option>
   </component>
@@ -365,6 +357,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="routes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="comparison_service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NLP_microservice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -397,8 +407,8 @@
       <recent name="$PROJECT_DIR$/app/static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.py.test in test_main.py">
-    <configuration default="false" name="py.test in test_text_normalizer.py" type="tests" factoryName="py.test" temporary="true">
+  <component name="RunManager" selected="Python tests.py.test in TestMain and test_get_ai_results">
+    <configuration default="false" name="py.test in TestMain and test_get_ai_results" type="tests" factoryName="py.test" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -415,32 +425,8 @@
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="$PROJECT_DIR$/tests/test_text_normalizer.py" />
-      <option name="keywords" value="" />
-      <option name="params" value="" />
-      <option name="USE_PARAM" value="false" />
-      <option name="USE_KEYWORD" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="py.test in TestTextNormalizer and test_remove_punctuation" type="tests" factoryName="py.test" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="comparison_service" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="$PROJECT_DIR$/tests/test_text_normalizer.py" />
-      <option name="keywords" value="TestTextNormalizer and test_remove_punctuation" />
+      <option name="testToRun" value="$PROJECT_DIR$/tests/test_main.py" />
+      <option name="keywords" value="TestMain and test_get_ai_results" />
       <option name="params" value="" />
       <option name="USE_PARAM" value="false" />
       <option name="USE_KEYWORD" value="true" />
@@ -470,7 +456,7 @@
       <option name="USE_KEYWORD" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="py.test in TestMain and test_get_ai_results" type="tests" factoryName="py.test" temporary="true">
+    <configuration default="false" name="py.test in TestTextNormalizer and test_remove_punctuation" type="tests" factoryName="py.test" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -487,14 +473,14 @@
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="$PROJECT_DIR$/tests/test_main.py" />
-      <option name="keywords" value="TestMain and test_get_ai_results" />
+      <option name="testToRun" value="$PROJECT_DIR$/tests/test_text_normalizer.py" />
+      <option name="keywords" value="TestTextNormalizer and test_remove_punctuation" />
       <option name="params" value="" />
       <option name="USE_PARAM" value="false" />
       <option name="USE_KEYWORD" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="py.test in test_main.py" type="tests" factoryName="py.test" temporary="true">
+    <configuration default="false" name="py.test in test_data_filter.py" type="tests" factoryName="py.test" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -511,11 +497,28 @@
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="$PROJECT_DIR$/tests/test_main.py" />
+      <option name="testToRun" value="$PROJECT_DIR$/tests/test_data_filter.py" />
       <option name="keywords" value="" />
       <option name="params" value="" />
       <option name="USE_PARAM" value="false" />
       <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app/services/check_bios" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="comparison_service" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/services/check_bios/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
@@ -651,20 +654,45 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python tests.py.test in test_text_normalizer.py" />
-      <item index="1" class="java.lang.String" itemvalue="Python tests.py.test in TestTextNormalizer and test_remove_punctuation" />
+    <configuration default="false" name="py.test in test_main.py" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="comparison_service" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="$PROJECT_DIR$/tests/test_main.py" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Python tests.py.test in test_main.py" />
+      <item index="1" class="java.lang.String" itemvalue="Python tests.py.test in TestMain and test_get_ai_results" />
       <item index="2" class="java.lang.String" itemvalue="Python tests.py.test in TestTextNormalizer and test_remove_content" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.py.test in TestMain and test_get_ai_results" />
-      <item index="4" class="java.lang.String" itemvalue="Python tests.py.test in test_main.py" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.py.test in TestTextNormalizer and test_remove_punctuation" />
+      <item index="4" class="java.lang.String" itemvalue="Python tests.py.test in test_data_filter.py" />
+      <item index="5" class="java.lang.String" itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.py.test in test_main.py" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.py.test in TestMain and test_get_ai_results" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.py.test in TestTextNormalizer and test_remove_content" />
-        <item index="3" class="java.lang.String" itemvalue="Python tests.py.test in TestTextNormalizer and test_remove_punctuation" />
-        <item index="4" class="java.lang.String" itemvalue="Python tests.py.test in test_text_normalizer.py" />
+        <item index="0" class="java.lang.String" itemvalue="Python tests.py.test in TestMain and test_get_ai_results" />
+        <item index="1" class="java.lang.String" itemvalue="Python.main" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.py.test in test_data_filter.py" />
+        <item index="3" class="java.lang.String" itemvalue="Python tests.py.test in TestTextNormalizer and test_remove_content" />
+        <item index="4" class="java.lang.String" itemvalue="Python tests.py.test in TestTextNormalizer and test_remove_punctuation" />
       </list>
     </recent_temporary>
   </component>
@@ -781,39 +809,45 @@
       <option name="project" value="LOCAL" />
       <updated>1463662133595</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="content regex added">
+      <created>1463663225116</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1463663225116</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 15h 24m 35s.xml">
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 17h 12m 55s.xml">
       <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_TestTextNormalizer_and_test_remove_content - 2016.05.19 at 15h 04m 35s.xml">
-      <configuration name="py.test in TestTextNormalizer and test_remove_content" configurationId="tests" />
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 17h 13m 16s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_TestTextNormalizer_and_test_remove_content - 2016.05.19 at 15h 04m 47s.xml">
-      <configuration name="py.test in TestTextNormalizer and test_remove_content" configurationId="tests" />
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 17h 13m 52s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_TestTextNormalizer_and_test_remove_content - 2016.05.19 at 15h 04m 56s.xml">
-      <configuration name="py.test in TestTextNormalizer and test_remove_content" configurationId="tests" />
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 17h 14m 30s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_TestTextNormalizer_and_test_remove_content - 2016.05.19 at 15h 05m 00s.xml">
-      <configuration name="py.test in TestTextNormalizer and test_remove_content" configurationId="tests" />
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 17h 14m 55s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_TestTextNormalizer_and_test_remove_punctuation - 2016.05.19 at 15h 03m 49s.xml">
-      <configuration name="py.test in TestTextNormalizer and test_remove_punctuation" configurationId="tests" />
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 17h 15m 20s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_test_main_py - 2016.05.19 at 15h 24m 54s.xml">
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 17h 16m 17s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.19 at 18h 05m 14s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_test_main_py - 2016.05.19 at 17h 10m 55s.xml">
       <configuration name="py.test in test_main.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_test_statistics_py - 2016.05.19 at 15h 01m 09s.xml">
-      <configuration name="py.test in test_statistics.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_test_text_normalizer_py - 2016.05.19 at 15h 00m 59s.xml">
-      <configuration name="py.test in test_text_normalizer.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_test_text_normalizer_py - 2016.05.19 at 15h 03m 30s.xml">
-      <configuration name="py.test in test_text_normalizer.py" configurationId="tests" />
+    <history-entry file="py_test_in_test_main_py - 2016.05.19 at 17h 15m 12s.xml">
+      <configuration name="py.test in test_main.py" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -861,7 +895,8 @@
     <MESSAGE value="Regex index added" />
     <MESSAGE value="bios_count_added" />
     <MESSAGE value="content regex index added" />
-    <option name="LAST_COMMIT_MESSAGE" value="content regex index added" />
+    <MESSAGE value="content regex added" />
+    <option name="LAST_COMMIT_MESSAGE" value="content regex added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -906,9 +941,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="45" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="45" />
-          <folding>
-            <marker date="1463655303768" expanded="true" signature="765:2255" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1134,16 +1167,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="59" selection-start-line="49" selection-start-column="59" selection-end-line="49" selection-end-column="59" />
-          <folding>
-            <marker date="1463655303768" expanded="true" signature="765:2255" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/services/check_bios/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1160,27 +1183,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/statistics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="62" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/data/full_data.csv">
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_data_filter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="0" selection-start-line="8" selection-start-column="7" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_handler.py">
@@ -1199,32 +1204,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/assets/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_statistics.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <marker date="1463656634313" expanded="true" signature="0:78" placeholder="import ..." />
+            <marker date="1463656634313" expanded="true" signature="112:860" placeholder="..." />
+            <marker date="1463656634313" expanded="true" signature="143:328" placeholder="..." />
+            <marker date="1463656634313" expanded="true" signature="361:592" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_main.py">
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/statistics.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <caret line="28" column="62" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/main.py">
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_filter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.419355">
-          <caret line="25" column="73" selection-start-line="25" selection-start-column="73" selection-end-line="25" selection-end-column="73" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding>
-            <element signature="e#42#64#0" expanded="true" />
+            <element signature="e#0#60#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1247,21 +1261,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_filter.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="70" selection-start-line="56" selection-start-column="70" selection-end-line="56" selection-end-column="70" />
+          <caret line="16" column="36" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="40" />
           <folding>
-            <element signature="e#0#60#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/static/assets/styles.css">
+    <entry file="file://$PROJECT_DIR$/app/routes/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21176471">
-          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+        <state vertical-scroll-proportion="-31.709677">
+          <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18789144">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="e#42#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
