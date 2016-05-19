@@ -58,6 +58,7 @@ def get_regexes_frames(raw_regex):
 
         df = DataFrame([''.join([merged_regexes.get(value) if value in merged_regexes.keys() else value for value in
                                  joined_regex.split("@")])], columns=["regex"])
+        df['regex_id'] = DataFrame([regex]).values
         df['score'] = DataFrame([joined_regexes['REG score'].get(regex)]).values
         df['pract_areas'] = DataFrame([joined_regexes['PA'].get(regex)]).values
         df['specialties'] = DataFrame([joined_regexes['SP'].get(regex)]).values

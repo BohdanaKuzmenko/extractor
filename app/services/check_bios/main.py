@@ -23,7 +23,7 @@ class Extractor(object):
         concatenated = concat(pool_results)
         concatenated['profileUrl'] = concatenated['profileUrl'].apply(lambda x: '<p class = "link"><a href="{}">{}</a></p>'.format(x, x))
         concatenated['sentence'] = concatenated['sentence'].apply(lambda x: '<p class = "test">{}</p>'.format(x))
-        return concatenated[['profileUrl', 'sentence', 'sent_num',  'practice_areas', 'specialties', 'score']]
+        return concatenated[['profileUrl', 'sentence', 'sent_num', 'regex_index', 'practice_areas', 'specialties', 'score']]
 
     def filter_with_regex(self, bio_df):
         splitted_bios = concat([Series(row['profileUrl'], sentences_splitter(row['attorneyBio']))
@@ -36,25 +36,26 @@ class Extractor(object):
 
         result = []
 
+        print("Data filtering started")
         for content_regex_key in unique_content_regexes_keys:
             content_regex = content_regexes_dict.get(content_regex_key)
             df_for_content_filtering = splitted_bios.copy()
             cn_filtered_bios = df_for_content_filtering[
                 df_for_content_filtering['sentence'].str.contains(content_regex)]
 
-            joined_regexes = self.joined_regexes[self.joined_regexes["content_regex"] == content_regex_key][
-                "regex"].values.tolist()
-
+            joined_regexes = self.joined_regexes[self.joined_regexes["content_regex"] == content_regex_key][[
+                "regex", "regex_id"]].values.tolist()
             for regex in joined_regexes:
-                print(regex)
+                regex_value, regex_index = regex
                 df_for_foined_filetering = cn_filtered_bios.copy()
-                regex_df = df_for_foined_filetering[df_for_foined_filetering['sentence'].str.contains(regex)]
+                regex_df = df_for_foined_filetering[df_for_foined_filetering['sentence'].str.contains(regex_value)]
                 if not regex_df.empty:
-                    current_regex_info_df = self.joined_regexes[self.joined_regexes["regex"] == regex]
+                    current_regex_info_df = self.joined_regexes[self.joined_regexes["regex"] == regex_value]
                     pr_areas = list(set(current_regex_info_df["pract_areas"].values.tolist()))
                     score = list(set(current_regex_info_df["score"].values.tolist()))
                     specialties = list(set(current_regex_info_df["specialties"].values.tolist()))
 
+                    regex_df['regex_index'] = DataFrame([regex_index] * len(regex_df.attorneyBio.values)).values
                     regex_df['practice_areas'] = DataFrame(pr_areas * len(regex_df.attorneyBio.values)).values
                     regex_df['specialties'] = DataFrame(specialties * len(regex_df.attorneyBio.values)).values
                     regex_df['score'] = DataFrame(score * len(regex_df.attorneyBio.values)).values
