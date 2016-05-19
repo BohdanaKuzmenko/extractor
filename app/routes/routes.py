@@ -26,7 +26,7 @@ def index():
 
 @app.route('/checkbios', methods=['POST'])
 def check_bios():
-    t1=datetime.datetime.now()
+    t1 = datetime.datetime.now()
     specialities_regex_filter = request.form.get('spec_regex')
     raw_regex = request.form.get('regexes')
 
@@ -42,13 +42,14 @@ def check_bios():
     print("AI result gotten")
     equals, ai_only, ldb_only, ldb_only_table = Statistics.get_all_statistics(ai_result, ldb_result, "profileUrl")
     t2 = datetime.datetime.now()
-    print("Time: " + str(t2-t1))
+    print("Time: " + str(t2 - t1))
     if not ai_result.empty or not ldb_result.empty:
         return render_template("result_tmp.html", speciality=specialities_regex_filter,
                                regex=raw_regex,
                                ai_data=ai_result.to_html(index=False, escape=False),
                                # ldb_data=ldb_result.to_html(escape=False),
                                ai_data_len=ai_result['profileUrl'].count(),
+                               ai_data_bios_len=len(set(ai_result['profileUrl'].values.tolist())),
                                ldb_data_len=ldb_result['profileUrl'].count(),
                                equals=equals, ai_only=ai_only, ldb_only=ldb_only,
                                ldb_only_table=ldb_only_table.to_html(escape=False))
@@ -83,6 +84,3 @@ def get_no_extractions_file():
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
-
