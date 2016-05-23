@@ -37,14 +37,14 @@ def get_regexes_frames(raw_regex):
     sub_regexes = DataHandler.df_to_dict(sub_regexes_df, "SR ID", "SubREGEX")
 
     content_regexes_df = DataHandler.get_spread_sheet_values('1dGKAXcZze3n6ypzdHUVrsULx5e-8sfkmYO2Ow3jagHE',
-                                                             'ContentREGEX')
+                                                             'ContentREGEX').fillna('')
     content_regexes = DataHandler.df_to_dict(content_regexes_df, "Content REG ID", "KeyWord")
 
     merged_regexes = sub_regexes.copy()
     merged_regexes.update(content_regexes)
 
     joined_regexes_df = DataHandler.get_spread_sheet_values('1dGKAXcZze3n6ypzdHUVrsULx5e-8sfkmYO2Ow3jagHE',
-                                                            'JoinedREGEX')
+                                                            'JoinedREGEX').fillna('')
     joined_regexes = DataHandler.df_to_dict(joined_regexes_df, "JOIN REG ID",
                                             ["JOINED REGEX", "REG score", "PA", "SP", "CN ID", "CX ID"])
 
