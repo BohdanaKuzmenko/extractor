@@ -28,25 +28,22 @@ def index():
 def check_bios():
     t1 = datetime.datetime.now()
     specialities_regex_filter = request.form.get('spec_regex')
+    source = request.form.get('source')
+    source_text = request.form.get('source_text')
+
     raw_regex = request.form.get('regexes')
     joined_regexes, content_regexes = get_regexes_frames(raw_regex)
-    needed_bios = get_bios()
+    needed_bios = get_bios(source, source_text)
+
     ldb_result = get_bios_per_spec(specialities_regex_filter)
     extractor = Extractor(joined_regexes, content_regexes)
     ai_result = extractor.get_ai_results(needed_bios)
-    # equals, ai_only, ldb_only, ldb_only_table = Statistics.get_all_statistics(ai_result, ldb_result, "profileUrl")
     t2 = datetime.datetime.now()
     print("Time: " + str(t2 - t1))
     if not ai_result.empty or not ldb_result.empty:
         return render_template("result_tmp.html", speciality=specialities_regex_filter,
                                regex=raw_regex,
                                ai_data=ai_result.to_html())
-                               # # ldb_data=ldb_result.to_html(escape=False),
-                               # ai_data_len=ai_result['profileUrl'].count(),
-                               # ai_data_bios_len=len(set(ai_result['profileUrl'].values.tolist())),
-                               # ldb_data_len=ldb_result['profileUrl'].count(),
-                               # equals=equals, ai_only=ai_only, ldb_only=ldb_only,
-                               # ldb_only_table=ldb_only_table.to_html(escape=False))
     return redirect(url_for('index'))
 
 

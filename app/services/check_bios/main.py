@@ -18,13 +18,13 @@ class Extractor(object):
 
     def get_ai_results(self, bios):
         set_option('display.max_colwidth', -1)
-        concatenated = self.filter_with_regex(bios)
-        # p = multiprocessing.Pool(4)
-        # pool_results = p.map(self.filter_with_regex, np.array_split(bios, 4))
-        # p.close()
-        # p.join()
-        # p.terminate()
-        # concatenated = concat(pool_results)
+        # concatenated = self.filter_with_regex(bios)
+        p = multiprocessing.Pool(4)
+        pool_results = p.map(self.filter_with_regex, np.array_split(bios, 4))
+        p.close()
+        p.join()
+        p.terminate()
+        concatenated = concat(pool_results)
         return concatenated
 
     def filter_with_regex(self, bio_df):
@@ -93,8 +93,8 @@ class Extractor(object):
             filtered_bios = df_to_filter_copy[df_to_filter_copy['sentence'].str.contains(regex_for_filtering)]
             return filtered_bios
         except:
+            print("wrong regex: " + regex_for_filtering)
             return DataFrame()
-            print("wrong regex")
 
     def group_data(self, filtered_bios_df):
         print("result_processing started")
@@ -133,7 +133,7 @@ class Extractor(object):
         grouped_bios = split_data_frame_col(grouped_bios, ['specialty', 'pract_area', 'score', 's_num', 'pr_url'], 'result').reset_index()
 
         grouped_bios = grouped_bios.groupby(['profileUrl'])['specialty', 'pract_area'].agg(
-            {lambda x: ', '.join([i for i in set(x, ) if i])})
+            {"Predictions":lambda x: ', '.join([i for i in set(x, ) if i])}).reset_index()
         return grouped_bios
 
     def remove_conflicts(self, sentence_info):

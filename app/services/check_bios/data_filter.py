@@ -1,5 +1,4 @@
 from pandas import concat, DataFrame
-
 from app.services.check_bios.handlers.io_data_handler import DataHandler
 
 
@@ -12,8 +11,12 @@ def get_all_specialities():
                      range(len(distinct_spec)) if distinct_spec[index]])
 
 
-def get_bios():
-    return next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')[:50]
+def get_bios(source, source_text):
+    if source == "from_file":
+        return next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
+    if source == "from_text":
+        return DataFrame([['No url', source_text, '', '']],
+                         columns=['profileUrl', 'attorneyBio', 'practice_areas', 'specialty'])
 
 
 def filter_bios(df, regex):
@@ -23,7 +26,8 @@ def filter_bios(df, regex):
 def get_bios_per_spec(specialities_regex_filter):
     all_bios = next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
     filtered = all_bios[all_bios['specialty'].str.contains(specialities_regex_filter)]
-    filtered['profileUrl'] = filtered['profileUrl'].apply(lambda x: '<p class = "link"><a href="{}">{}</a></p>'.format(x, x))
+    filtered['profileUrl'] = filtered['profileUrl'].apply(
+        lambda x: '<p class = "link"><a href="{}">{}</a></p>'.format(x, x))
     filtered['attorneyBio'] = filtered['attorneyBio'].apply(lambda x: '<p class ="test">{}</p>'.format(x))
     return filtered[['profileUrl', 'attorneyBio', 'practice_areas', 'specialty']]
 
