@@ -1,6 +1,6 @@
-from app.services.check_bios.data_handler import DataHandler
 from pandas import concat, DataFrame
 
+from app.services.check_bios.handlers.io_data_handler import DataHandler
 
 
 def get_all_specialities():
@@ -13,7 +13,7 @@ def get_all_specialities():
 
 
 def get_bios():
-    return next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
+    return next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')[:50]
 
 
 def filter_bios(df, regex):

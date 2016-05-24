@@ -29,18 +29,11 @@ def check_bios():
     t1 = datetime.datetime.now()
     specialities_regex_filter = request.form.get('spec_regex')
     raw_regex = request.form.get('regexes')
-
     joined_regexes, content_regexes = get_regexes_frames(raw_regex)
     needed_bios = get_bios()
-    print("Bios gotten")
-
     ldb_result = get_bios_per_spec(specialities_regex_filter)
-    print("LDB result gotten")
-
     extractor = Extractor(joined_regexes, content_regexes)
     ai_result = extractor.get_ai_results(needed_bios)
-    print(ai_result)
-    print("AI result gotten")
     # equals, ai_only, ldb_only, ldb_only_table = Statistics.get_all_statistics(ai_result, ldb_result, "profileUrl")
     t2 = datetime.datetime.now()
     print("Time: " + str(t2 - t1))

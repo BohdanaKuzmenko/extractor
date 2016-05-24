@@ -3,12 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="22457a4b-7e0c-4be4-8863-aafe949b6d06" name="Default" comment="regex_info added">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/credentials/extractor-3fb583056fd4.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/services/check_bios/handlers/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/services/check_bios/handlers/df_handler.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/services/check_bios/data_handler.py" afterPath="$PROJECT_DIR$/app/services/check_bios/handlers/io_data_handler.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/services/check_bios/drive_handler.py" afterPath="$PROJECT_DIR$/app/services/check_bios/handlers/drive_handler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes/routes.py" afterPath="$PROJECT_DIR$/app/routes/routes.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/services/check_bios/data_filter.py" afterPath="$PROJECT_DIR$/app/services/check_bios/data_filter.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/services/check_bios/main.py" afterPath="$PROJECT_DIR$/app/services/check_bios/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/services/check_bios/text_normalizer.py" afterPath="$PROJECT_DIR$/app/services/check_bios/text_normalizer.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_main.py" afterPath="$PROJECT_DIR$/tests/test_main.py" />
     </list>
     <ignored path="comparison_service.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +35,27 @@
         <entry file="file://$PROJECT_DIR$/app/routes/routes.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="57" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
+              <caret line="29" column="62" selection-start-line="29" selection-start-column="62" selection-end-line="29" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7734375">
+              <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index(prev).html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/index(prev).html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.666667">
+              <caret line="52" column="24" selection-start-line="52" selection-start-column="24" selection-end-line="58" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -43,29 +65,19 @@
         <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_filter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="80" selection-start-line="15" selection-start-column="80" selection-end-line="15" selection-end-column="80" />
+              <caret line="15" column="83" selection-start-line="15" selection-start-column="83" selection-end-line="15" selection-end-column="83" />
               <folding>
-                <element signature="e#0#60#0" expanded="true" />
+                <element signature="e#0#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="text_normalizer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/services/check_bios/text_normalizer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="100" selection-start-line="10" selection-start-column="100" selection-end-line="10" selection-end-column="100" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="drive_handler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/services/check_bios/drive_handler.py">
+        <entry file="file://$PROJECT_DIR$/app/services/check_bios/handlers/drive_handler.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+              <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -81,37 +93,36 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_text_normalizer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_text_normalizer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="96" selection-start-line="7" selection-start-column="96" selection-end-line="7" selection-end-column="96" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/services/check_bios/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.22761194">
-              <caret line="121" column="46" selection-start-line="121" selection-start-column="46" selection-end-line="121" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="165" column="30" selection-start-line="165" selection-start-column="30" selection-end-line="165" selection-end-column="30" />
               <folding>
                 <element signature="e#42#64#0" expanded="true" />
-                <marker date="1464017184814" expanded="true" signature="780:1205" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data_handler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_handler.py">
+      <file leaf-file-name="df_handler.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/services/check_bios/handlers/df_handler.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="22" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="22" />
+              <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="io_data_handler.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/services/check_bios/handlers/io_data_handler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="116" column="21" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
+              <folding>
+                <element signature="e#41#51#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -121,18 +132,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="17" column="60" selection-start-line="17" selection-start-column="58" selection-end-line="17" selection-end-column="60" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_statistics.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_statistics.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="66" selection-start-line="18" selection-start-column="66" selection-end-line="18" selection-end-column="66" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -176,7 +175,6 @@
         <option value="$PROJECT_DIR$/app/controllers/controller.py" />
         <option value="$PROJECT_DIR$/app/services/check_bios/drive_handler.py" />
         <option value="$PROJECT_DIR$/app/services/check_bios/data_handler.py" />
-        <option value="$PROJECT_DIR$/app/templates/index.html" />
         <option value="$PROJECT_DIR$/app/templates/result.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app/templates/result_tmp.html" />
@@ -188,9 +186,13 @@
         <option value="$PROJECT_DIR$/app/services/check_bios/text_normalizer.py" />
         <option value="$PROJECT_DIR$/tests/test_text_normalizer.py" />
         <option value="$PROJECT_DIR$/tests/test_main.py" />
+        <option value="$PROJECT_DIR$/app/services/check_bios/handlers/df_handler.py" />
+        <option value="$PROJECT_DIR$/app/services/check_bios/handlers/drive_handler.py" />
+        <option value="$PROJECT_DIR$/app/services/check_bios/handlers/io_data_handler.py" />
         <option value="$PROJECT_DIR$/app/routes/routes.py" />
         <option value="$PROJECT_DIR$/app/services/check_bios/data_filter.py" />
         <option value="$PROJECT_DIR$/app/services/check_bios/main.py" />
+        <option value="$PROJECT_DIR$/app/templates/index.html" />
       </list>
     </option>
   </component>
@@ -225,6 +227,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -268,6 +271,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="comparison_service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NLP_microservice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -407,12 +428,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/services/check_bios/handlers" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -420,19 +440,19 @@
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///usr/local/lib/python3.4/dist-packages/pandas/core/generic.py&#10;get_bio&#9;null&#9;null&#10;get_all_s&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/services/check_bios/handlers" />
+      <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$/app/credentials" />
+      <recent name="$PROJECT_DIR$/app/static/images" />
+      <recent name="$PROJECT_DIR$/app/templates" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/data" />
       <recent name="$PROJECT_DIR$/app/credentials" />
       <recent name="$PROJECT_DIR$/app/models" />
       <recent name="$PROJECT_DIR$/app/static" />
       <recent name="$PROJECT_DIR$/app/static/js" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app" />
-      <recent name="$PROJECT_DIR$/app/credentials" />
-      <recent name="$PROJECT_DIR$/app/static/images" />
-      <recent name="$PROJECT_DIR$/app/templates" />
-      <recent name="$PROJECT_DIR$/app/static" />
     </key>
   </component>
   <component name="RunManager" selected="Python tests.py.test in TestMain and test_get_ai_results">
@@ -848,28 +868,16 @@
       <option name="project" value="LOCAL" />
       <updated>1463671354495</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="total fixes">
+      <created>1464017607047</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1464017607047</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 17h 59m 53s.xml">
-      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 18h 14m 24s.xml">
-      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 18h 16m 45s.xml">
-      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 18h 17m 25s.xml">
-      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 18h 18m 21s.xml">
-      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 18h 18m 31s.xml">
-      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
-    </history-entry>
     <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 18h 19m 15s.xml">
       <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
@@ -882,23 +890,41 @@
     <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.23 at 18h 22m 14s.xml">
       <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
     </history-entry>
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.24 at 09h 11m 22s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.24 at 11h 12m 43s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.24 at 11h 46m 53s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.24 at 12h 27m 10s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.24 at 12h 28m 52s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_TestMain_and_test_get_ai_results - 2016.05.24 at 12h 31m 17s.xml">
+      <configuration name="py.test in TestMain and test_get_ai_results" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="1457" y="52" width="1829" height="1028" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15946844" sideWeight="0.47227535" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15946844" sideWeight="0.47227535" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22324967" sideWeight="0.502477" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32116005" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295099" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867885" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33727175" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51450056" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17467248" sideWeight="0.5277247" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35875404" sideWeight="0.497523" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3888292" sideWeight="0.497523" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867885" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15720524" sideWeight="0.47227535" order="0" side_tool="false" content_ui="combo" />
@@ -945,37 +971,33 @@
     <MESSAGE value="content regex added" />
     <MESSAGE value="refactored" />
     <MESSAGE value="tests added" />
-    <option name="LAST_COMMIT_MESSAGE" value="tests added" />
+    <MESSAGE value="total fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="total fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <option name="time" value="10" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/statistics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="38" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_filter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="36" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="36" />
           <folding>
-            <element signature="e#0#60#0" expanded="true" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_handler.py">
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/handlers/io_data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="7" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
-          <folding />
+          <folding>
+            <element signature="e#41#51#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1007,7 +1029,6 @@
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="49" />
           <folding>
             <element signature="e#42#64#0" expanded="true" />
-            <marker date="1464017184814" expanded="true" signature="780:1205" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1159,24 +1180,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/index(prev).html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.3333335">
-          <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python3.4/dist-packages/pandas/core/frame.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="208" column="53" selection-start-line="208" selection-start-column="46" selection-end-line="208" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1198,13 +1205,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.43714285">
           <caret line="20" column="53" selection-start-line="20" selection-start-column="53" selection-end-line="20" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.518518">
-          <caret line="47" column="21" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1254,7 +1254,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="96" selection-start-line="7" selection-start-column="96" selection-end-line="7" selection-end-column="96" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1264,40 +1264,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="66" selection-start-line="18" selection-start-column="66" selection-end-line="18" selection-end-column="66" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/statistics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="62" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/drive_handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="22" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="57" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1319,24 +1287,89 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/statistics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="62" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/handlers/drive_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes/routes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="62" selection-start-line="29" selection-start-column="62" selection-end-line="29" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/handlers/df_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/services/check_bios/handlers/io_data_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="116" column="21" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
+          <folding>
+            <element signature="e#41#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/services/check_bios/data_filter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="80" selection-start-line="15" selection-start-column="80" selection-end-line="15" selection-end-column="80" />
+          <caret line="15" column="83" selection-start-line="15" selection-start-column="83" selection-end-line="15" selection-end-column="83" />
           <folding>
-            <element signature="e#0#60#0" expanded="true" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/services/check_bios/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22761194">
-          <caret line="121" column="46" selection-start-line="121" selection-start-column="46" selection-end-line="121" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="165" column="30" selection-start-line="165" selection-start-column="30" selection-end-line="165" selection-end-column="30" />
           <folding>
             <element signature="e#42#64#0" expanded="true" />
-            <marker date="1464017184814" expanded="true" signature="780:1205" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/index(prev).html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.666667">
+          <caret line="52" column="24" selection-start-line="52" selection-start-column="24" selection-end-line="58" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7734375">
+          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
