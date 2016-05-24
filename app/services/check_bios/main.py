@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*
 
 import multiprocessing
-
 import numpy as np
 from pandas import concat, DataFrame, set_option
-
 from app.services.check_bios.handlers.io_data_handler import DataHandler
 from app.services.check_bios.text_normalizer import sentences_splitter
 from app.services.check_bios.handlers.df_handler import *
@@ -18,13 +16,16 @@ class Extractor(object):
 
     def get_ai_results(self, bios):
         set_option('display.max_colwidth', -1)
-        # concatenated = self.filter_with_regex(bios)
-        p = multiprocessing.Pool(4)
-        pool_results = p.map(self.filter_with_regex, np.array_split(bios, 4))
-        p.close()
-        p.join()
-        p.terminate()
-        concatenated = concat(pool_results)
+        print(bios.profileUrl.count())
+        if bios.profileUrl.count() >= 4:
+            p = multiprocessing.Pool(4)
+            pool_results = p.map(self.filter_with_regex, np.array_split(bios, 4))
+            p.close()
+            p.join()
+            p.terminate()
+            concatenated = concat(pool_results)
+        else:
+            concatenated = self.filter_with_regex(bios)
         return concatenated
 
     def filter_with_regex(self, bio_df):
@@ -55,7 +56,9 @@ class Extractor(object):
                     bio_df['specialties'] = DataFrame(specialties * len(bio_df.attorneyBio.values)).values
                     bio_df['score'] = DataFrame(score * len(bio_df.attorneyBio.values)).values
                     result.append(bio_df)
-        return self.group_data(concat(result))
+        if result:
+            return self.group_data(concat(result))
+        return DataFrame
 
     def get_regex_info(self, regex_index):
         '''
@@ -121,19 +124,22 @@ class Extractor(object):
 
     def count_result(self, grouped_df):
         grouped_df = grouped_df.convert_objects(convert_numeric=True)
+
         grouped_df['practice_area_score'] = grouped_df.groupby(['profileUrl', 'practice_areas'])[
             'specialty_score'].transform('sum')
         grouped_df['practice_area_info'] = join_df_cols(grouped_df,
-                                                        ['specialties', 'practice_areas', 'practice_area_score', 'sent_num', 'profileUrl'])
+                                                        ['specialties', 'practice_areas', 'practice_area_score',
+                                                         'sent_num', 'profileUrl'])
 
         grouped_bios = grouped_df.groupby(['profileUrl', 'sent_num'])[
             'practice_area_info'].agg(
             {'result': lambda x: tuple(self.remove_conflicts(x, ))})
         grouped_bios = split_data_frame_rows(grouped_bios, 'result')
-        grouped_bios = split_data_frame_col(grouped_bios, ['specialty', 'pract_area', 'score', 's_num', 'pr_url'], 'result').reset_index()
+        grouped_bios = split_data_frame_col(grouped_bios, ['specialty', 'pract_area', 'score', 's_num', 'pr_url'],
+                                            'result').reset_index()
 
         grouped_bios = grouped_bios.groupby(['profileUrl'])['specialty', 'pract_area'].agg(
-            {"Predictions":lambda x: ', '.join([i for i in set(x, ) if i])}).reset_index()
+            {"Predictions": lambda x: ', '.join([i for i in set(x, ) if i])}).reset_index()
         return grouped_bios
 
     def remove_conflicts(self, sentence_info):
@@ -161,7 +167,7 @@ class Extractor(object):
                 group_max_score = max([i[2] for i in conflict_groups.get(key)])
                 max_scored = [i for i in conflict_groups.get(key) if i[2] == group_max_score]
                 practice_only = [i for i in max_scored if not i[0]]
-                unconflict_groups.extend(practice_only)if practice_only else unconflict_groups.extend(max_scored)
+                unconflict_groups.extend(practice_only) if practice_only else unconflict_groups.extend(max_scored)
 
         return unconflict_groups
 
