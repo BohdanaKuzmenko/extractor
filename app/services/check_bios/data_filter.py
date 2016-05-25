@@ -25,6 +25,7 @@ def filter_bios(df, regex):
 
 def get_bios_per_spec(specialities_regex_filter):
     all_bios = next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
+    print(all_bios.head())
     filtered = all_bios[all_bios['specialty'].str.contains(specialities_regex_filter)]
     filtered['profileUrl'] = filtered['profileUrl'].apply(
         lambda x: '<p class = "link"><a href="{}">{}</a></p>'.format(x, x))

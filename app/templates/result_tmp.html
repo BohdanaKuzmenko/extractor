@@ -9,28 +9,11 @@
                 } );
             } );
         </script>
-
-<!--Live DB-->
-        <!--<div class="block table">-->
-            <!--<div class="navbar navbar-inner block-header">-->
-                <!--<div class="muted pull-left">LDB</div>-->
-                <!--<div class="pull-right"><span class="badge badge-info">{{ldb_data_len}}</span>-->
-
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="block-content collapse in">-->
-                <!--{{ldb_data|safe}}-->
-
-            <!--</div>-->
-        <!--</div>-->
-<br>
 <br>
 <!--Predictions-->
         <div class="block table">
             <div class="navbar navbar-inner block-header">
                 <div class="muted pull-left">AI_results</div>
-                <div class="pull-right"><span class="badge badge-info">sentences amount = {{ai_data_len}}</span></div>
-                <div class="pull-right"><span class="badge badge-info">bios amount = {{ai_data_bios_len}}</span></div>
             </div>
             <div class="block-content collapse in">
                 {{ai_data|safe}}
@@ -38,45 +21,5 @@
             </div>
         </div>
 
-<div class="row-fluid">
-
-                        <div class="block">
-                            <div class="navbar navbar-inner block-header">
-                                <div class="muted pull-left">Statistics</div>
-                                <div class="pull-right"><span class="badge badge-warning"></span>
-
-                                </div>
-                            </div>
-                            <div class="block-content collapse in">
-                                <div class="span3">
-                                    <div class="chart" data-percent="73">{{equals}}</div>
-                                    <span class="label label-info">Equals</span>
-                                </div>
-                                <div class="span3">
-                                    <div class="chart" data-percent="73">{{ldb_only}}</div>
-                                    <span class="label label-info">LDB only</span>
-                                </div>
-                                <div class="span3">
-                                    <div class="chart" data-percent="73">{{ai_only}}</div>
-                                    <span class="label label-info">AI only</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-<div class="block table">
-            <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Not recognized ldb bios</div>
-                <div class="pull-right"><span class="badge badge-info">{{ldb_only}}</span>
-
-                </div>
-            </div>
-            <div class="block-content collapse in">
-                {{ldb_only_table|safe}}
-
-            </div>
-        </div>
-
-<!--Statistics-->
 
     {% endblock %}

@@ -16,7 +16,6 @@ class Extractor(object):
 
     def get_ai_results(self, bios):
         set_option('display.max_colwidth', -1)
-        print(bios.profileUrl.count())
         if bios.profileUrl.count() >= 4:
             p = multiprocessing.Pool(4)
             pool_results = p.map(self.filter_with_regex, np.array_split(bios, 4))
@@ -30,7 +29,6 @@ class Extractor(object):
 
     def filter_with_regex(self, bio_df):
         sentence_tokenized_bios = self.bio_df_sentence_tokenizing(bio_df)
-        print("sentences splitted")
         unique_content_regexes_keys = set(self.joined_regexes.content_regex.values)
         all_content_regexes_dict = DataHandler.df_to_dict(self.content_regexes, "Content REG ID", "KeyWord")
 
@@ -56,6 +54,7 @@ class Extractor(object):
                     bio_df['specialties'] = DataFrame(specialties * len(bio_df.attorneyBio.values)).values
                     bio_df['score'] = DataFrame(score * len(bio_df.attorneyBio.values)).values
                     result.append(bio_df)
+
         if result:
             return self.group_data(concat(result))
         return DataFrame
@@ -96,17 +95,22 @@ class Extractor(object):
             filtered_bios = df_to_filter_copy[df_to_filter_copy['sentence'].str.contains(regex_for_filtering)]
             return filtered_bios
         except:
-            print("wrong regex: " + regex_for_filtering)
             return DataFrame()
 
     def group_data(self, filtered_bios_df):
-        print("result_processing started")
+        '''
+        :param filtered_bios_df: DataFrame
+        Method filters rows with the same practice areas and specialties according to max score value.
+        '''
+
         filtered_bios_df['sentence_info'] = join_df_cols(filtered_bios_df,
                                                          ['specialties', 'context', 'joined', 'score'])
 
         grouped_bios = filtered_bios_df.groupby(['profileUrl', 'sent_num', 'content', 'practice_areas'])[
             'sentence_info'].agg(
-            {'result': lambda x: tuple([i for i in x if i[3] == max([i[3] for i in x])][0])}).reset_index()
+            {'result': lambda x: tuple(
+                [sent_info for sent_info in x if sent_info[3] == max([sent_info[3] for sent_info in x])][
+                    0])}).reset_index()
 
         grouped_bios = split_data_frame_col(grouped_bios, ['specialties', 'context_regex', 'joined', 'score'],
                                             'result')
@@ -119,23 +123,36 @@ class Extractor(object):
             {'main_info': lambda x: tuple(set(x, ))[0]}).reset_index()
 
         result = split_data_frame_col(test, ['practice_areas', 'specialty_score'], 'main_info')
-
         return self.count_result(result)
 
     def count_result(self, grouped_df):
+        '''
+        :param grouped_df: DataFrame
+        Method counts sum score for every practice area and removes unappropriate practice areas
+        '''
         grouped_df = grouped_df.convert_objects(convert_numeric=True)
 
         grouped_df['practice_area_score'] = grouped_df.groupby(['profileUrl', 'practice_areas'])[
             'specialty_score'].transform('sum')
+
         grouped_df['practice_area_info'] = join_df_cols(grouped_df,
                                                         ['specialties', 'practice_areas', 'practice_area_score',
-                                                         'sent_num', 'profileUrl'])
+                                                         'sent_num'])
 
         grouped_bios = grouped_df.groupby(['profileUrl', 'sent_num'])[
             'practice_area_info'].agg(
             {'result': lambda x: tuple(self.remove_conflicts(x, ))})
+
         grouped_bios = split_data_frame_rows(grouped_bios, 'result')
-        grouped_bios = split_data_frame_col(grouped_bios, ['specialty', 'pract_area', 'score', 's_num', 'pr_url'],
+        grouped_bios = split_data_frame_col(grouped_bios, ['specialty', 'pract_area', 'score', 's_num'],
+                                            'result').reset_index()
+
+        grouped_bios['bio_full_info'] = join_df_cols(grouped_bios, ['specialty', 'pract_area', 'score', 'sent_num'])
+
+        grouped_bios = grouped_bios.groupby(['profileUrl'])['bio_full_info'].agg(
+            {'result': lambda x: tuple(self.filter_by_practice_area_score(x, ))})
+        grouped_bios = split_data_frame_rows(grouped_bios, 'result')
+        grouped_bios = split_data_frame_col(grouped_bios, ['specialty', 'pract_area', 'score', 'sent_num'],
                                             'result').reset_index()
 
         grouped_bios = grouped_bios.groupby(['profileUrl'])['specialty', 'pract_area'].agg(
@@ -154,7 +171,7 @@ class Extractor(object):
         conflict_groups = {key: [] for key in set(specialties) if key}
         unconflict_groups = []
         for data in sentence_info:
-            specialty, pract_area, score, sent_n, url = data
+            specialty, pract_area, score, sent_n = data
             if specialty and specialties.count(specialty) > 1:
                 conflict_groups[specialty].append(data)
             elif pract_area in conflict_groups.keys() and not specialty:
@@ -168,8 +185,21 @@ class Extractor(object):
                 max_scored = [i for i in conflict_groups.get(key) if i[2] == group_max_score]
                 practice_only = [i for i in max_scored if not i[0]]
                 unconflict_groups.extend(practice_only) if practice_only else unconflict_groups.extend(max_scored)
-
         return unconflict_groups
+
+    def filter_by_practice_area_score(self, data_frame):
+        '''
+        :param data_frame:
+        :return:
+        '''
+        max_scored_limit = 2
+        sorted_data = sorted(data_frame, key=lambda x: int(x[2]), reverse=True)
+        appropriate_data = []
+        for bio_info in sorted_data:
+            if len(appropriate_data) < max_scored_limit or bio_info == appropriate_data[-1][2]:
+                appropriate_data.append(bio_info)
+
+        return appropriate_data
 
 
 if __name__ == "__main__":

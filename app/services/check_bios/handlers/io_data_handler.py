@@ -57,7 +57,7 @@ class DataHandler(object):
         :param file_name: str
         :return: DataFrame of file values
         '''
-        return pd.read_csv(file_name, chunksize=1000000, sep="\t", quoting=csv.QUOTE_NONE, encoding='utf-8')
+        return pd.read_csv(file_name, chunksize=1000000, sep=";", quoting=csv.QUOTE_NONE, encoding='utf-8')
 
     @staticmethod
     def db_to_db(engine_from, engine_to, query, table_name):
