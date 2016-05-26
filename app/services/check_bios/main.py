@@ -120,7 +120,7 @@ class Extractor(object):
         '''
         filtered_bios_df = filtered_bios_df.convert_objects(convert_numeric=True)
 
-        filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL]/filtered_bios_df[SENTENCE_INDEX_COL]
+        filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL] + (filtered_bios_df[REG_SCORE_COL]/filtered_bios_df[SENTENCE_INDEX_COL])
         cols_to_join = [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL]
         filtered_bios_df['sentence_info'] = join_df_cols(filtered_bios_df, cols_to_join)
         filtered_bios_df.drop(cols_to_join, inplace=True, axis=1)
