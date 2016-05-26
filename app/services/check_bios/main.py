@@ -120,30 +120,29 @@ class Extractor(object):
         '''
         filtered_bios_df = filtered_bios_df.convert_objects(convert_numeric=True)
 
-        filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL] + (filtered_bios_df[REG_SCORE_COL]/filtered_bios_df[SENTENCE_INDEX_COL])
+        filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL] + (
+            filtered_bios_df[REG_SCORE_COL] / filtered_bios_df[SENTENCE_INDEX_COL])
         cols_to_join = [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL]
         filtered_bios_df['sentence_info'] = join_df_cols(filtered_bios_df, cols_to_join)
         filtered_bios_df.drop(cols_to_join, inplace=True, axis=1)
 
-        grouped_bios = \
-            filtered_bios_df.groupby([PROFILE_URL_COL, SENTENCE_INDEX_COL, CONTENT_REG_COL, PRACTICE_AREAS_COL]) \
-                ['sentence_info'].agg({'result': lambda x: tuple(
-                [sent_info for sent_info in x if sent_info[3] == max([sent_info[3] for sent_info in x])][
-                    0])}).reset_index()
+        group_by_cols = [PROFILE_URL_COL, SENTENCE_INDEX_COL, CONTENT_REG_COL, PRACTICE_AREAS_COL]
+        grouped_bios = filtered_bios_df.groupby(group_by_cols)['sentence_info'] \
+            .agg({'result': lambda x: tuple(
+            [sent_info for sent_info in x if sent_info[3] == max([sent_info[3] for sent_info in x])][0])}) \
+            .reset_index()
 
-        grouped_bios = split_data_frame_col(grouped_bios,
-                                            [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL],
-                                            'result')
+        split_cols = [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL]
+        grouped_bios = split_data_frame_col(grouped_bios, split_cols, 'result')
 
         cols_to_join = [PRACTICE_AREAS_COL, REG_SCORE_COL]
         grouped_bios['specialty_info'] = join_df_cols(grouped_bios, cols_to_join)
         grouped_bios.drop(cols_to_join, inplace=True, axis=1)
 
-        test = \
-            grouped_bios.groupby(
-                [PROFILE_URL_COL, SENTENCE_INDEX_COL, CONTEXT_REG_COL, SPECIALTIES_COL, JOINED_REG_COL])[
-                'specialty_info'].agg(
-                {'main_info': lambda x: tuple(set(x, ))[0]}).reset_index()
+        group_by_cols = [PROFILE_URL_COL, SENTENCE_INDEX_COL, CONTEXT_REG_COL, SPECIALTIES_COL, JOINED_REG_COL]
+        test = grouped_bios.groupby(group_by_cols)['specialty_info'] \
+            .agg({'main_info': lambda x: tuple(set(x, ))[0]}) \
+            .reset_index()
 
         result = split_data_frame_col(test, [PRACTICE_AREAS_COL, REG_SCORE_COL], 'main_info')
         return self.count_result(result)
@@ -162,26 +161,24 @@ class Extractor(object):
         grouped_df['practice_area_info'] = join_df_cols(grouped_df, cols_to_join)
         grouped_df.drop(cols_to_join, inplace=True, axis=1)
 
-        grouped_bios = grouped_df.groupby([PROFILE_URL_COL, SENTENCE_INDEX_COL])[
-            'practice_area_info'].agg(
-            {'result': lambda x: tuple(self.remove_conflicts(x, ))})
+        grouped_bios = grouped_df.groupby([PROFILE_URL_COL, SENTENCE_INDEX_COL])['practice_area_info'] \
+            .agg({'result': lambda x: tuple(self.remove_conflicts(x, ))})
 
         grouped_bios = split_data_frame_rows(grouped_bios, 'result')
 
-        grouped_bios = split_data_frame_col(grouped_bios,
-                                            [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL],
-                                            'result').reset_index()
+        split_cols = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL]
+        grouped_bios = split_data_frame_col(grouped_bios, split_cols, 'result').reset_index()
+
         cols_to_join = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL, SENTENCE_INDEX_COL]
         grouped_bios['bio_full_info'] = join_df_cols(grouped_bios, cols_to_join)
-        # grouped_bios.drop(cols_to_join, inplace=True, axis=1)
 
-        grouped_bios = grouped_bios.groupby([PROFILE_URL_COL])['bio_full_info'].agg(
-            {'test': lambda x: tuple(self.filter_by_practice_area_score(x, ))})
+        grouped_bios = grouped_bios.groupby([PROFILE_URL_COL])['bio_full_info'] \
+            .agg({'test': lambda x: tuple(self.filter_by_practice_area_score(x, ))})
 
         grouped_bios = split_data_frame_rows(grouped_bios, 'test')
-        grouped_bios = split_data_frame_col(grouped_bios,
-                                            [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL, SENTENCE_INDEX_COL],
-                                            'test').reset_index()
+
+        split_cols = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL, SENTENCE_INDEX_COL]
+        grouped_bios = split_data_frame_col(grouped_bios, split_cols, 'test').reset_index()
 
         grouped_bios = grouped_bios.groupby([PROFILE_URL_COL])[SPECIALTIES_COL, PRACTICE_AREAS_COL].agg(
             {"Predictions": lambda x: ', '.join([i for i in set(x, ) if i])}).reset_index()

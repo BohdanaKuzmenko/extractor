@@ -14,10 +14,6 @@ app.config['UPLOAD_FILE'] = 'app/data/full_data.csv'
 ALLOWED_EXTENSIONS = set(['csv', 'xlsx'])
 
 
-@app.route('/lead_up', methods=['GET', 'POST'])
-def lead_up():
-    return render_template('lead-up.html', ldb_data=get_all_specialities())
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -32,10 +28,11 @@ def check_bios():
 
     raw_regex = request.form.get('regexes')
     joined_regexes, content_regexes = get_regexes_frames(raw_regex)
-    needed_bios = get_bios(source, source_text)
 
+    needed_bios = get_bios(source, source_text)
     extractor = Extractor(joined_regexes, content_regexes)
     ai_result = extractor.get_ai_results(needed_bios)
+
     t2 = datetime.datetime.now()
     print("Time: " + str(t2 - t1))
     if not ai_result.empty:
