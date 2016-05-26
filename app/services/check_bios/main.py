@@ -118,7 +118,9 @@ class Extractor(object):
         :param filtered_bios_df: DataFrame
         Method filters rows with the same practice areas and specialties according to max score value.
         '''
+        filtered_bios_df = filtered_bios_df.convert_objects(convert_numeric=True)
 
+        filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL]/filtered_bios_df[SENTENCE_INDEX_COL]
         cols_to_join = [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL]
         filtered_bios_df['sentence_info'] = join_df_cols(filtered_bios_df, cols_to_join)
         filtered_bios_df.drop(cols_to_join, inplace=True, axis=1)
@@ -151,8 +153,8 @@ class Extractor(object):
         :param grouped_df: DataFrame
         Method counts sum score for every practice area and removes unappropriate practice areas
         '''
-        grouped_df = grouped_df.convert_objects(convert_numeric=True)
 
+        grouped_df = grouped_df.convert_objects(convert_numeric=True)
         grouped_df[PRACTICE_AREAS_SCORE] = grouped_df.groupby([PROFILE_URL_COL, PRACTICE_AREAS_COL])[
             REG_SCORE_COL].transform('sum')
 

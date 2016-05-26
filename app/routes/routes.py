@@ -41,7 +41,7 @@ def check_bios():
     if not ai_result.empty:
         return render_template("result_tmp.html",
                                regex=raw_regex,
-                               ai_data=ai_result.to_html())
+                               ai_data=ai_result.to_html(index=False))
     return redirect(url_for('index'))
 
 
