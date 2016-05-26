@@ -27,7 +27,6 @@ def index():
 @app.route('/checkbios', methods=['POST'])
 def check_bios():
     t1 = datetime.datetime.now()
-    specialities_regex_filter = request.form.get('spec_regex')
     source = request.form.get('source')
     source_text = request.form.get('source_text')
 
@@ -35,13 +34,12 @@ def check_bios():
     joined_regexes, content_regexes = get_regexes_frames(raw_regex)
     needed_bios = get_bios(source, source_text)
 
-    ldb_result = get_bios_per_spec(specialities_regex_filter)
     extractor = Extractor(joined_regexes, content_regexes)
     ai_result = extractor.get_ai_results(needed_bios)
     t2 = datetime.datetime.now()
     print("Time: " + str(t2 - t1))
-    if not ai_result.empty or not ldb_result.empty:
-        return render_template("result_tmp.html", speciality=specialities_regex_filter,
+    if not ai_result.empty:
+        return render_template("result_tmp.html",
                                regex=raw_regex,
                                ai_data=ai_result.to_html())
     return redirect(url_for('index'))

@@ -4,8 +4,8 @@
 import multiprocessing
 import numpy as np
 from pandas import concat, DataFrame, set_option
-from app.services.check_bios.handlers.io_data_handler import DataHandler
 from app.services.check_bios.text_normalizer import sentences_splitter
+from app.services.check_bios.handlers.io_data_handler import DataHandler
 from app.services.check_bios.handlers.df_handler import *
 
 
@@ -22,6 +22,7 @@ class Extractor(object):
             p.close()
             p.join()
             p.terminate()
+            print(pool_results)
             concatenated = concat(pool_results)
         else:
             concatenated = self.filter_with_regex(bios)
@@ -29,48 +30,35 @@ class Extractor(object):
 
     def filter_with_regex(self, bio_df):
         sentence_tokenized_bios = self.bio_df_sentence_tokenizing(bio_df)
-        unique_content_regexes_keys = set(self.joined_regexes.content_regex.values)
-        all_content_regexes_dict = DataHandler.df_to_dict(self.content_regexes, "Content REG ID", "KeyWord")
+        unique_content_regexes_keys = set(self.joined_regexes['CN ID'].values)
+        all_content_regexes_dict = DataHandler.df_to_dict(self.content_regexes, "reg_id", "regex_value")
 
         result = []
+        # Filter bios with content regex
         for content_regex_key in unique_content_regexes_keys:
             print(content_regex_key)
             content_regex_value = all_content_regexes_dict.get(content_regex_key)
-            content_filtered_bios = self.filter_bios(sentence_tokenized_bios, content_regex_value)
+            content_filtered_bios = self.filter_bios_with_contain_regex(sentence_tokenized_bios, 'sentence',
+                                                                        content_regex_value)
 
-            joined_regexes = self.joined_regexes[self.joined_regexes["content_regex"] == content_regex_key][[
-                "regex", "regex_id"]].values.tolist()
-            for regex in joined_regexes:
-                joined_regex_value, joined_regex_index = regex
-                bio_df = self.filter_bios(content_filtered_bios, joined_regex_value)
+            joined_regexes = self.joined_regexes[self.joined_regexes['CN ID'] == content_regex_key]
+
+            for _, reg in joined_regexes.iterrows():
+
+                bio_df = self.filter_bios_with_contain_regex(content_filtered_bios, 'sentence', reg['regex'])
 
                 if not bio_df.empty:
-                    pr_areas, specialties, score, context_regex = self.get_regex_info(joined_regex_index)
-                    bio_df['content'] = DataFrame(
-                        [content_regex_key] * len(bio_df.attorneyBio.values)).values
-                    bio_df['context'] = DataFrame([context_regex] * len(bio_df.attorneyBio.values)).values
-                    bio_df['joined'] = DataFrame([joined_regex_index] * len(bio_df.attorneyBio.values)).values
-                    bio_df['practice_areas'] = DataFrame(pr_areas * len(bio_df.attorneyBio.values)).values
-                    bio_df['specialties'] = DataFrame(specialties * len(bio_df.attorneyBio.values)).values
-                    bio_df['score'] = DataFrame(score * len(bio_df.attorneyBio.values)).values
+                    bio_df['content'] = DataFrame([reg['CN ID']] * len(bio_df.attorneyBio.values)).values
+                    bio_df['context'] = DataFrame([reg['CX ID']] * len(bio_df.attorneyBio.values)).values
+                    bio_df['joined'] = DataFrame([reg['JOIN REG ID']] * len(bio_df.attorneyBio.values)).values
+                    bio_df['practice_areas'] = DataFrame([reg['PA']] * len(bio_df.attorneyBio.values)).values
+                    bio_df['specialties'] = DataFrame([reg['SP']] * len(bio_df.attorneyBio.values)).values
+                    bio_df['score'] = DataFrame([reg['REG score']] * len(bio_df.attorneyBio.values)).values
                     result.append(bio_df)
 
         if result:
             return self.group_data(concat(result))
-        return DataFrame
-
-    def get_regex_info(self, regex_index):
-        '''
-        :param regex_index: str
-        :return: tuple of practice area, specialty, score and context regex according to input regular expression index
-        '''
-        current_regex_info_df = self.joined_regexes[self.joined_regexes["regex_id"] == regex_index]
-        pr_areas = list(set(current_regex_info_df["pract_areas"].values.tolist()))
-        specialties = list(set(current_regex_info_df["specialties"].values.tolist()))
-        score = list(set(current_regex_info_df["score"].values.tolist()))
-        context_regex = list(set(current_regex_info_df["context_regex"].values.tolist()))
-        regex_info = (pr_areas, specialties, score, context_regex)
-        return regex_info
+        return DataFrame()
 
     def bio_df_sentence_tokenizing(self, df):
         '''
@@ -84,15 +72,21 @@ class Extractor(object):
         splitted_bios[['sent_num', 'sentence']] = splitted_bios['attorneyBio'].apply(Series)
         return splitted_bios
 
-    def filter_bios(self, df_to_filter, regex_for_filtering):
+    def filer_bios_with_not_contain_regex(self, bio_df, col_name, regexes_list):
+        df_for_filtering = bio_df.copy()
+        for regex in regexes_list:
+            df_for_filtering = df_for_filtering[~df_for_filtering[col_name].str.contains(regex)]
+        return df_for_filtering
+
+    def filter_bios_with_contain_regex(self, bio_df, col_name, regex_for_filtering):
         '''
-        :param df_to_filter: DataFrame
+        :param bio_df: DataFrame
         :param regex_for_filtering: str
         :return: DataFrame, filtered with input regular expression
         '''
         try:
-            df_to_filter_copy = df_to_filter.copy()
-            filtered_bios = df_to_filter_copy[df_to_filter_copy['sentence'].str.contains(regex_for_filtering)]
+            df_to_filter_copy = bio_df.copy()
+            filtered_bios = df_to_filter_copy[df_to_filter_copy[col_name].str.contains(regex_for_filtering)]
             return filtered_bios
         except:
             return DataFrame()
@@ -196,7 +190,7 @@ class Extractor(object):
         sorted_data = sorted(data_frame, key=lambda x: int(x[2]), reverse=True)
         appropriate_data = []
         for bio_info in sorted_data:
-            if len(appropriate_data) < max_scored_limit or bio_info == appropriate_data[-1][2]:
+            if len(appropriate_data) < max_scored_limit or bio_info[2] == appropriate_data[-1][2]:
                 appropriate_data.append(bio_info)
 
         return appropriate_data
