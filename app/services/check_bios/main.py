@@ -28,16 +28,15 @@ class Extractor(object):
 
     def get_ai_results(self, bios):
         set_option('display.max_colwidth', -1)
-        # if bios.profileUrl.count() >= 4:
-        #     p = multiprocessing.Pool(4)
-        #     pool_results = p.map(self.filter_with_regex, np.array_split(bios, 4))
-        #     p.close()
-        #     p.join()
-        #     p.terminate()
-        #     concatenated = concat(pool_results)
-        # else:
-        #     concatenated = self.filter_with_regex(bios)
-        concatenated = self.filter_with_regex(bios)
+        if bios.profileUrl.count() >= 4:
+            p = multiprocessing.Pool(4)
+            pool_results = p.map(self.filter_with_regex, np.array_split(bios, 4))
+            p.close()
+            p.join()
+            p.terminate()
+            concatenated = concat(pool_results)
+        else:
+            concatenated = self.filter_with_regex(bios)
         return concatenated
 
     def filter_with_regex(self, bio_df):
@@ -97,7 +96,8 @@ class Extractor(object):
         regexes_list = regexes.split(";")
         df_for_filtering = bio_df.copy()
         for regex in regexes_list:
-            df_for_filtering = df_for_filtering[~df_for_filtering[col_name].str.contains(regex)]
+            content_regex_value = self.content_regexes.at[regex, 'regex_value']
+            df_for_filtering = df_for_filtering[~df_for_filtering[col_name].str.contains(content_regex_value)]
         return df_for_filtering
 
     def filter_bios_with_contain_regex(self, bio_df, col_name, regex_for_filtering):
