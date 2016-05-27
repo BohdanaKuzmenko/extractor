@@ -1,8 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, send_file
 from ..services.check_bios.main import Extractor
-from ..services.check_bios.statistics import Statistics
-from app.services.check_bios.data_filter import *
+from app.services.check_bios.data_filter import DataFilter
 import os
 import pandas as pd
 import datetime
@@ -27,13 +26,25 @@ def check_bios():
     source_text = request.form.get('source_text')
 
     raw_regex = request.form.get('regexes')
-    joined_regexes, content_regexes = get_regexes_frames(raw_regex)
+    data_filter = DataFilter()
 
-    needed_bios = get_bios(source, source_text)
-    extractor = Extractor(joined_regexes, content_regexes)
+    regex_storing_time1 = datetime.datetime.now()
+    joined_regexes, content_regexes, support_words_df = data_filter.get_regexes_frames(raw_regex)
+    regex_storing_time2 = datetime.datetime.now()
+
+    bios_getting_time1 = datetime.datetime.now()
+    needed_bios = data_filter.get_bios(source, source_text)
+    bios_getting_time2 = datetime.datetime.now()
+
+    extracting_time1 = datetime.datetime.now()
+    extractor = Extractor(joined_regexes, content_regexes, support_words_df)
     ai_result = extractor.get_ai_results(needed_bios)
+    extracting_time2 = datetime.datetime.now()
 
     t2 = datetime.datetime.now()
+    print("Regexes storing: " + str(regex_storing_time2 - regex_storing_time1))
+    print("Bios_getting: " + str(bios_getting_time2 - bios_getting_time1))
+    print("Extract inf0: " + str(extracting_time2 - extracting_time1))
     print("Time: " + str(t2 - t1))
     if not ai_result.empty:
         return render_template("result_tmp.html",

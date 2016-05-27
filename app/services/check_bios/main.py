@@ -3,9 +3,9 @@
 
 import multiprocessing
 import numpy as np
+import re
 from pandas import concat, DataFrame, set_option
 from app.services.check_bios.text_normalizer import sentences_splitter
-from app.services.check_bios.handlers.io_data_handler import DataHandler
 from app.services.check_bios.handlers.df_handler import *
 
 PROFILE_URL_COL = "profileUrl"
@@ -18,13 +18,15 @@ CONTEXT_REG_COL = 'context'
 CONTENT_REG_COL = 'content'
 JOINED_REG_COL = 'joined'
 REG_SCORE_COL = 'score'
-PRACTICE_AREAS_SCORE = 'practice_area_score'
+PRACTICE_AREAS_SCORE_COL = 'practice_area_score'
+SUPPORT_WORDS_SCORE = 'words_score'
 
 
 class Extractor(object):
-    def __init__(self, joined_regexes, content_regexes):
+    def __init__(self, joined_regexes, content_regexes, support_words):
         self.joined_regexes = joined_regexes
         self.content_regexes = content_regexes
+        self.support_words = support_words
 
     def get_ai_results(self, bios):
         set_option('display.max_colwidth', -1)
@@ -41,9 +43,8 @@ class Extractor(object):
 
     def filter_with_regex(self, bio_df):
         sentence_tokenized_bios = self.bio_df_sentence_tokenizing(bio_df)
-        unique_content_regexes_keys = set(self.joined_regexes['CN ID'].values)
+        unique_content_regexes_keys = sorted(set(self.joined_regexes['CN ID'].values))
         self.content_regexes = self.content_regexes.set_index(["reg_id"])
-        # all_content_regexes_dict = DataHandler.df_to_dict(self.content_regexes, "reg_id", "regex_value")
 
         result = []
         # Filter bios with content regex
@@ -51,7 +52,6 @@ class Extractor(object):
             print(content_regex_key)
             if content_regex_key in self.content_regexes.index.values.tolist():
                 content_regex_value = self.content_regexes.at[content_regex_key, 'regex_value']
-                # all_content_regexes_dict.get(content_regex_key)
                 content_filtered_bios = self.filter_bios_with_contain_regex(sentence_tokenized_bios,
                                                                             SENTENCE_CONTENT_COL,
                                                                             content_regex_value)
@@ -59,7 +59,6 @@ class Extractor(object):
                 if narrow:
                     content_filtered_bios = self.filer_bios_with_not_contain_regex(content_filtered_bios,
                                                                                    SENTENCE_CONTENT_COL, narrow)
-
                 joined_regexes = self.joined_regexes[self.joined_regexes['CN ID'] == content_regex_key]
 
                 for _, reg in joined_regexes.iterrows():
@@ -68,6 +67,8 @@ class Extractor(object):
                                                                  reg['regex'])
 
                     if not bio_df.empty:
+                        bio_df[SUPPORT_WORDS_SCORE] = bio_df[SENTENCE_CONTENT_COL].apply(
+                            lambda x: self.count_score(x, reg['PA']))
                         bio_df[CONTENT_REG_COL] = DataFrame([reg['CN ID']] * len(bio_df.attorneyBio.values)).values
                         bio_df[CONTEXT_REG_COL] = DataFrame([reg['CX ID']] * len(bio_df.attorneyBio.values)).values
                         bio_df[JOINED_REG_COL] = DataFrame([reg['JOIN REG ID']] * len(bio_df.attorneyBio.values)).values
@@ -79,6 +80,18 @@ class Extractor(object):
         if result:
             return self.group_data(concat(result))
         return DataFrame()
+
+    def count_score(self, sentence, practice_area):
+        pa_support_words_df = self.support_words[self.support_words['PA'] == practice_area] \
+            .convert_objects(convert_numeric=True)
+        pa_support_words_df = pa_support_words_df.set_index(["Support Word"])
+        score = sum(
+            [pa_support_words_df.loc[pattern, 'AddScore'] for pattern in pa_support_words_df.index.values.tolist() if
+             re.search(pattern, sentence)])
+        return score
+
+        # print(practice_area)
+        # print(self.featured_words[self.featured_words == practice_area])
 
     def bio_df_sentence_tokenizing(self, df):
         '''
@@ -120,8 +133,8 @@ class Extractor(object):
         '''
         filtered_bios_df = filtered_bios_df.convert_objects(convert_numeric=True)
 
-        filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL] + (
-            filtered_bios_df[REG_SCORE_COL] / filtered_bios_df[SENTENCE_INDEX_COL])
+        filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL] + filtered_bios_df[SUPPORT_WORDS_SCORE] + \
+                                          (filtered_bios_df[REG_SCORE_COL] / filtered_bios_df[SENTENCE_INDEX_COL])
         cols_to_join = [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL]
         filtered_bios_df['sentence_info'] = join_df_cols(filtered_bios_df, cols_to_join)
         filtered_bios_df.drop(cols_to_join, inplace=True, axis=1)
@@ -154,10 +167,10 @@ class Extractor(object):
         '''
 
         grouped_df = grouped_df.convert_objects(convert_numeric=True)
-        grouped_df[PRACTICE_AREAS_SCORE] = grouped_df.groupby([PROFILE_URL_COL, PRACTICE_AREAS_COL])[
+        grouped_df[PRACTICE_AREAS_SCORE_COL] = grouped_df.groupby([PROFILE_URL_COL, PRACTICE_AREAS_COL])[
             REG_SCORE_COL].transform('sum')
 
-        cols_to_join = [SPECIALTIES_COL, PRACTICE_AREAS_COL, PRACTICE_AREAS_SCORE]
+        cols_to_join = [SPECIALTIES_COL, PRACTICE_AREAS_COL, PRACTICE_AREAS_SCORE_COL]
         grouped_df['practice_area_info'] = join_df_cols(grouped_df, cols_to_join)
         grouped_df.drop(cols_to_join, inplace=True, axis=1)
 
