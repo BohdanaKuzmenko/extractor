@@ -85,13 +85,9 @@ class Extractor(object):
         pa_support_words_df = self.support_words[self.support_words['PA'] == practice_area] \
             .convert_objects(convert_numeric=True)
         pa_support_words_df = pa_support_words_df.set_index(["Support Word"])
-        score = sum(
-            [pa_support_words_df.loc[pattern, 'AddScore'] for pattern in pa_support_words_df.index.values.tolist() if
-             re.search(pattern, sentence)])
+        score = sum([pa_support_words_df.loc[pattern, 'AddScore'] * len(re.findall(pattern, sentence)) \
+                     for pattern in pa_support_words_df.index.values.tolist()])
         return score
-
-        # print(practice_area)
-        # print(self.featured_words[self.featured_words == practice_area])
 
     def bio_df_sentence_tokenizing(self, df):
         '''
