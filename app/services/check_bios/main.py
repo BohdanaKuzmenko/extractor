@@ -49,7 +49,7 @@ class Extractor(object):
         result = []
         # Filter bios with content regex
         for content_regex_key in unique_content_regexes_keys:
-            print(content_regex_key)
+            # print(content_regex_key)
             if content_regex_key in self.content_regexes.index.values.tolist():
                 content_regex_value = self.content_regexes.at[content_regex_key, 'regex_value']
                 content_filtered_bios = self.filter_bios_with_contain_regex(sentence_tokenized_bios,
@@ -178,7 +178,7 @@ class Extractor(object):
         split_cols = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL]
         grouped_bios = split_data_frame_col(grouped_bios, split_cols, 'result').reset_index()
 
-        cols_to_join = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL, SENTENCE_INDEX_COL]
+        cols_to_join = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL]
         grouped_bios['bio_full_info'] = join_df_cols(grouped_bios, cols_to_join)
 
         grouped_bios = grouped_bios.groupby([PROFILE_URL_COL])['bio_full_info'] \
@@ -186,7 +186,7 @@ class Extractor(object):
 
         grouped_bios = split_data_frame_rows(grouped_bios, 'test')
 
-        split_cols = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL, SENTENCE_INDEX_COL]
+        split_cols = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL]
         grouped_bios = split_data_frame_col(grouped_bios, split_cols, 'test').reset_index()
 
         grouped_bios = grouped_bios.groupby([PROFILE_URL_COL])[SPECIALTIES_COL, PRACTICE_AREAS_COL].agg(
@@ -226,7 +226,7 @@ class Extractor(object):
         :return:
         '''
         max_scored_limit = 2
-        sorted_data = sorted(data_frame, key=lambda x: int(x[2]), reverse=True)
+        sorted_data = sorted(set(data_frame), key=lambda x: int(x[2]), reverse=True)
         appropriate_data = []
         for bio_info in sorted_data:
             if len(appropriate_data) < max_scored_limit or bio_info[2] == appropriate_data[-1][2]:
