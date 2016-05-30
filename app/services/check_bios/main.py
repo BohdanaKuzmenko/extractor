@@ -23,10 +23,11 @@ SUPPORT_WORDS_SCORE = 'words_score'
 
 
 class Extractor(object):
-    def __init__(self, joined_regexes, content_regexes, support_words):
+    def __init__(self, joined_regexes, content_regexes, support_words, stop_words):
         self.joined_regexes = joined_regexes
         self.content_regexes = content_regexes
         self.support_words = support_words
+        self.stop_words = stop_words
 
     def get_ai_results(self, bios):
         set_option('display.max_colwidth', -1)
@@ -43,6 +44,9 @@ class Extractor(object):
 
     def filter_with_regex(self, bio_df):
         sentence_tokenized_bios = self.bio_df_sentence_tokenizing(bio_df)
+        stop_words = [regex for regex in self.stop_words['StopREGEX'].values.tolist() if regex]
+        sentence_tokenized_bios = filer_bios_with_not_contain_regex(sentence_tokenized_bios, SENTENCE_CONTENT_COL,
+                                                                         stop_words)
         unique_content_regexes_keys = sorted(set(self.joined_regexes['CN ID'].values))
         self.content_regexes = self.content_regexes.set_index(["reg_id"])
 
@@ -52,18 +56,19 @@ class Extractor(object):
             # print(content_regex_key)
             if content_regex_key in self.content_regexes.index.values.tolist():
                 content_regex_value = self.content_regexes.at[content_regex_key, 'regex_value']
-                content_filtered_bios = self.filter_bios_with_contain_regex(sentence_tokenized_bios,
+                content_filtered_bios = filter_bios_with_contain_regex(sentence_tokenized_bios,
                                                                             SENTENCE_CONTENT_COL,
                                                                             content_regex_value)
                 narrow = self.content_regexes.at[content_regex_key, 'narrow_regex']
                 if narrow:
-                    content_filtered_bios = self.filer_bios_with_not_contain_regex(content_filtered_bios,
-                                                                                   SENTENCE_CONTENT_COL, narrow)
+                    narrow_regexes_values = [self.content_regexes.at[key, 'regex_value'] for key in narrow.split(";")]
+                    content_filtered_bios = filer_bios_with_not_contain_regex(content_filtered_bios,
+                                                                                   SENTENCE_CONTENT_COL, narrow_regexes_values)
                 joined_regexes = self.joined_regexes[self.joined_regexes['CN ID'] == content_regex_key]
 
                 for _, reg in joined_regexes.iterrows():
 
-                    bio_df = self.filter_bios_with_contain_regex(content_filtered_bios, SENTENCE_CONTENT_COL,
+                    bio_df = filter_bios_with_contain_regex(content_filtered_bios, SENTENCE_CONTENT_COL,
                                                                  reg['regex'])
 
                     if not bio_df.empty:
@@ -101,26 +106,7 @@ class Extractor(object):
         splitted_bios[[SENTENCE_INDEX_COL, SENTENCE_CONTENT_COL]] = splitted_bios[FULL_BIO_COL].apply(Series)
         return splitted_bios
 
-    def filer_bios_with_not_contain_regex(self, bio_df, col_name, regexes):
-        regexes_list = regexes.split(";")
-        df_for_filtering = bio_df.copy()
-        for regex in regexes_list:
-            content_regex_value = self.content_regexes.at[regex, 'regex_value']
-            df_for_filtering = df_for_filtering[~df_for_filtering[col_name].str.contains(content_regex_value)]
-        return df_for_filtering
 
-    def filter_bios_with_contain_regex(self, bio_df, col_name, regex_for_filtering):
-        '''
-        :param bio_df: DataFrame
-        :param regex_for_filtering: str
-        :return: DataFrame, filtered with input regular expression
-        '''
-        try:
-            df_to_filter_copy = bio_df.copy()
-            filtered_bios = df_to_filter_copy[df_to_filter_copy[col_name].str.contains(regex_for_filtering)]
-            return filtered_bios
-        except:
-            return DataFrame()
 
     def group_data(self, filtered_bios_df):
         '''
@@ -227,6 +213,7 @@ class Extractor(object):
         '''
         max_scored_limit = 2
         sorted_data = sorted(set(data_frame), key=lambda x: int(x[2]), reverse=True)
+        # print(sorted_data)
         appropriate_data = []
         for bio_info in sorted_data:
             if len(appropriate_data) < max_scored_limit or bio_info[2] == appropriate_data[-1][2]:

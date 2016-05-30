@@ -13,6 +13,7 @@ CONTENT_REGEX_VALUE_COL = "KeyWord"
 CONTENT_NARROW_REGEX = "Narrow REGs"
 
 # JOINED_REGEX_LIST_NAME = 'JoinedREGEX(ready)'
+# JOINED_REGEX_LIST_NAME = 'JoinedREGEX(CN)'
 JOINED_REGEX_LIST_NAME = 'JoinedREGEX'
 JOINED_REGEX_ID_COL = "JOIN REG ID"
 JOINED_REGEX_VALUE_COL = "JOINED REGEX"
@@ -25,6 +26,7 @@ SUPPORT_WORDS_LIST_NAME = "SupportWords"
 PA_COL = "PA"
 SUPPORT_WORD_COL = "Support Word"
 SCORE_COL = "AddScore"
+STOP_WORDS_COL = "StopREGEX"
 
 
 
@@ -60,6 +62,9 @@ class DataFilter(object):
         support_words_df = DataHandler.get_spread_sheet_values(SPREADSHEET_ID, SUPPORT_WORDS_LIST_NAME) \
             .fillna('')[[PA_COL, SUPPORT_WORD_COL, SCORE_COL]]
 
+        stop_words_df = DataHandler.get_spread_sheet_values(SPREADSHEET_ID, SUPPORT_WORDS_LIST_NAME) \
+            .fillna('')[[STOP_WORDS_COL]]
+
         p = multiprocessing.Pool(4)
         result_regex_list = p.map(self.process_regexes, regexes)
         p.close()
@@ -67,7 +72,7 @@ class DataFilter(object):
         p.terminate()
 
         print("Regex processing finished")
-        return (concat(result_regex_list), content_regexes_df, support_words_df)
+        return (concat(result_regex_list), content_regexes_df, support_words_df, stop_words_df)
 
     def process_regexes(self, regex):
         df = self.joined_regexes_df[self.joined_regexes_df[JOINED_REGEX_ID_COL] == regex]

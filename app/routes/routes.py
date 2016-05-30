@@ -29,7 +29,7 @@ def check_bios():
     data_filter = DataFilter()
 
     regex_storing_time1 = datetime.datetime.now()
-    joined_regexes, content_regexes, support_words_df = data_filter.get_regexes_frames(raw_regex)
+    joined_regexes, content_regexes, support_words_df, stop_words_df = data_filter.get_regexes_frames(raw_regex)
     regex_storing_time2 = datetime.datetime.now()
 
     bios_getting_time1 = datetime.datetime.now()
@@ -37,7 +37,7 @@ def check_bios():
     bios_getting_time2 = datetime.datetime.now()
 
     extracting_time1 = datetime.datetime.now()
-    extractor = Extractor(joined_regexes, content_regexes, support_words_df)
+    extractor = Extractor(joined_regexes, content_regexes, support_words_df, stop_words_df)
     ai_result = extractor.get_ai_results(needed_bios)
     extracting_time2 = datetime.datetime.now()
 
