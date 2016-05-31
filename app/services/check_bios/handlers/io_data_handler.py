@@ -52,12 +52,12 @@ class DataHandler(object):
         return pd.read_sql_query(query, engine, chunksize=1000000)
 
     @staticmethod
-    def get_csv_values(file_name):
+    def get_csv_values(file_name, sep=';'):
         '''
         :param file_name: str
         :return: DataFrame of file values
         '''
-        return pd.read_csv(file_name, chunksize=1000000, sep=";", quoting=csv.QUOTE_NONE, encoding='utf-8')
+        return pd.read_csv(file_name, chunksize=1000000, sep=sep, quoting=csv.QUOTE_NONE, encoding='utf-8')
 
     @staticmethod
     def db_to_db(engine_from, engine_to, query, table_name):

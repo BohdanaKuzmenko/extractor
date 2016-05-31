@@ -46,31 +46,33 @@ class Extractor(object):
         sentence_tokenized_bios = self.bio_df_sentence_tokenizing(bio_df)
         stop_words = [regex for regex in self.stop_words['StopREGEX'].values.tolist() if regex]
         sentence_tokenized_bios = filer_bios_with_not_contain_regex(sentence_tokenized_bios, SENTENCE_CONTENT_COL,
-                                                                         stop_words)
+                                                                    stop_words)
         unique_content_regexes_keys = sorted(set(self.joined_regexes['CN ID'].values))
         self.content_regexes = self.content_regexes.set_index(["reg_id"])
 
         result = []
         # Filter bios with content regex
+        count=1
         for content_regex_key in unique_content_regexes_keys:
-            # print(content_regex_key)
+            print(content_regex_key)
             if content_regex_key in self.content_regexes.index.values.tolist():
                 content_regex_value = self.content_regexes.at[content_regex_key, 'regex_value']
                 content_filtered_bios = filter_bios_with_contain_regex(sentence_tokenized_bios,
-                                                                            SENTENCE_CONTENT_COL,
-                                                                            content_regex_value)
+                                                                       SENTENCE_CONTENT_COL,
+                                                                       content_regex_value)
                 narrow = self.content_regexes.at[content_regex_key, 'narrow_regex']
                 if narrow:
                     narrow_regexes_values = [self.content_regexes.at[key, 'regex_value'] for key in narrow.split(";")]
                     content_filtered_bios = filer_bios_with_not_contain_regex(content_filtered_bios,
-                                                                                   SENTENCE_CONTENT_COL, narrow_regexes_values)
+                                                                              SENTENCE_CONTENT_COL,
+                                                                              narrow_regexes_values)
                 joined_regexes = self.joined_regexes[self.joined_regexes['CN ID'] == content_regex_key]
 
                 for _, reg in joined_regexes.iterrows():
 
                     bio_df = filter_bios_with_contain_regex(content_filtered_bios, SENTENCE_CONTENT_COL,
-                                                                 reg['regex'])
-
+                                                            reg['regex'])
+                    count+=1
                     if not bio_df.empty:
                         bio_df[SUPPORT_WORDS_SCORE] = bio_df[SENTENCE_CONTENT_COL].apply(
                             lambda x: self.count_score(x, reg['PA']))
@@ -81,7 +83,7 @@ class Extractor(object):
                         bio_df[SPECIALTIES_COL] = DataFrame([reg['SP']] * len(bio_df.attorneyBio.values)).values
                         bio_df[REG_SCORE_COL] = DataFrame([reg['REG score']] * len(bio_df.attorneyBio.values)).values
                         result.append(bio_df)
-
+        print("Count: " + str(count))
         if result:
             return self.group_data(concat(result))
         return DataFrame()
@@ -106,21 +108,18 @@ class Extractor(object):
         splitted_bios[[SENTENCE_INDEX_COL, SENTENCE_CONTENT_COL]] = splitted_bios[FULL_BIO_COL].apply(Series)
         return splitted_bios
 
-
-
     def group_data(self, filtered_bios_df):
         '''
         :param filtered_bios_df: DataFrame
         Method filters rows with the same practice areas and specialties according to max score value.
         '''
         filtered_bios_df = filtered_bios_df.convert_objects(convert_numeric=True)
-
         filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL] + filtered_bios_df[SUPPORT_WORDS_SCORE] + \
                                           (filtered_bios_df[REG_SCORE_COL] / filtered_bios_df[SENTENCE_INDEX_COL])
+
         cols_to_join = [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL]
         filtered_bios_df['sentence_info'] = join_df_cols(filtered_bios_df, cols_to_join)
         filtered_bios_df.drop(cols_to_join, inplace=True, axis=1)
-
         group_by_cols = [PROFILE_URL_COL, SENTENCE_INDEX_COL, CONTENT_REG_COL, PRACTICE_AREAS_COL]
         grouped_bios = filtered_bios_df.groupby(group_by_cols)['sentence_info'] \
             .agg({'result': lambda x: tuple(
@@ -130,17 +129,10 @@ class Extractor(object):
         split_cols = [SPECIALTIES_COL, CONTEXT_REG_COL, JOINED_REG_COL, REG_SCORE_COL]
         grouped_bios = split_data_frame_col(grouped_bios, split_cols, 'result')
 
-        cols_to_join = [PRACTICE_AREAS_COL, REG_SCORE_COL]
-        grouped_bios['specialty_info'] = join_df_cols(grouped_bios, cols_to_join)
-        grouped_bios.drop(cols_to_join, inplace=True, axis=1)
-
-        group_by_cols = [PROFILE_URL_COL, SENTENCE_INDEX_COL, CONTEXT_REG_COL, SPECIALTIES_COL, JOINED_REG_COL]
-        test = grouped_bios.groupby(group_by_cols)['specialty_info'] \
-            .agg({'main_info': lambda x: tuple(set(x, ))[0]}) \
-            .reset_index()
-
-        result = split_data_frame_col(test, [PRACTICE_AREAS_COL, REG_SCORE_COL], 'main_info')
-        return self.count_result(result)
+        grouped_bios = grouped_bios.convert_objects(convert_numeric=True)
+        grouped_bios[PRACTICE_AREAS_SCORE_COL] = grouped_bios.groupby([PROFILE_URL_COL, PRACTICE_AREAS_COL])[
+            REG_SCORE_COL].transform('sum')
+        return self.count_result(grouped_bios)
 
     def count_result(self, grouped_df):
         '''
@@ -148,17 +140,12 @@ class Extractor(object):
         Method counts sum score for every practice area and removes unappropriate practice areas
         '''
 
-        grouped_df = grouped_df.convert_objects(convert_numeric=True)
-        grouped_df[PRACTICE_AREAS_SCORE_COL] = grouped_df.groupby([PROFILE_URL_COL, PRACTICE_AREAS_COL])[
-            REG_SCORE_COL].transform('sum')
-
         cols_to_join = [SPECIALTIES_COL, PRACTICE_AREAS_COL, PRACTICE_AREAS_SCORE_COL]
         grouped_df['practice_area_info'] = join_df_cols(grouped_df, cols_to_join)
         grouped_df.drop(cols_to_join, inplace=True, axis=1)
-
         grouped_bios = grouped_df.groupby([PROFILE_URL_COL, SENTENCE_INDEX_COL])['practice_area_info'] \
             .agg({'result': lambda x: tuple(self.remove_conflicts(x, ))})
-
+        grouped_bios = grouped_bios.fillna('')
         grouped_bios = split_data_frame_rows(grouped_bios, 'result')
 
         split_cols = [SPECIALTIES_COL, PRACTICE_AREAS_COL, REG_SCORE_COL]

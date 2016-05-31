@@ -12,9 +12,8 @@ CONTENT_REGEX_ID_COL = "Content REG ID"
 CONTENT_REGEX_VALUE_COL = "KeyWord"
 CONTENT_NARROW_REGEX = "Narrow REGs"
 
-# JOINED_REGEX_LIST_NAME = 'JoinedREGEX(ready)'
-# JOINED_REGEX_LIST_NAME = 'JoinedREGEX(CN)'
-JOINED_REGEX_LIST_NAME = 'JoinedREGEX'
+JOINED_REGEX_LIST_NAME = 'JoinedREGEX(ready)'
+# JOINED_REGEX_LIST_NAME = 'JoinedREGEX'
 JOINED_REGEX_ID_COL = "JOIN REG ID"
 JOINED_REGEX_VALUE_COL = "JOINED REGEX"
 
@@ -34,7 +33,7 @@ STOP_WORDS_COL = "StopREGEX"
 class DataFilter(object):
     def get_bios(self, source, source_text):
         if source == "from_file":
-            return next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')
+            return next(DataHandler.get_csv_values('app/data/full_data.csv')).fillna('')[300:700]
         if source == "from_text":
             return DataFrame([['No url', source_text, '', '']],
                              columns=['profileUrl', 'attorneyBio', 'practice_areas', 'specialty'])
@@ -65,13 +64,19 @@ class DataFilter(object):
         stop_words_df = DataHandler.get_spread_sheet_values(SPREADSHEET_ID, SUPPORT_WORDS_LIST_NAME) \
             .fillna('')[[STOP_WORDS_COL]]
 
+
         p = multiprocessing.Pool(4)
         result_regex_list = p.map(self.process_regexes, regexes)
         p.close()
         p.join()
         p.terminate()
+        # result_regex_list = next(DataHandler.get_csv_values('regexes.csv', sep="\t")).fillna('')
 
         print("Regex processing finished")
+        # DataHandler.chunk_to_csv(support_words_df, "support.csv", header=True)
+        # DataHandler.chunk_to_csv(stop_words_df, "stop.csv", header=True)
+        # DataHandler.chunk_to_csv(content_regexes_df, "content.csv", header=True)
+        # DataHandler.chunk_to_csv(concat(result_regex_list), "regexes.csv", header=True)
         return (concat(result_regex_list), content_regexes_df, support_words_df, stop_words_df)
 
     def process_regexes(self, regex):

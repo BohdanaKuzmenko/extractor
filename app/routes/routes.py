@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for, send_file
 from ..services.check_bios.main import Extractor
 from app.services.check_bios.data_filter import DataFilter
+from app.services.check_bios.handlers.io_data_handler import DataHandler
 import os
 import pandas as pd
 import datetime
@@ -46,6 +47,7 @@ def check_bios():
     print("Bios_getting: " + str(bios_getting_time2 - bios_getting_time1))
     print("Extract inf0: " + str(extracting_time2 - extracting_time1))
     print("Time: " + str(t2 - t1))
+    DataHandler.chunk_to_csv(ai_result,"test_result.csv")
     if not ai_result.empty:
         return render_template("result_tmp.html",
                                regex=raw_regex,
