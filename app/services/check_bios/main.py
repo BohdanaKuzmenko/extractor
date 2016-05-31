@@ -52,7 +52,6 @@ class Extractor(object):
 
         result = []
         # Filter bios with content regex
-        count=1
         for content_regex_key in unique_content_regexes_keys:
             print(content_regex_key)
             if content_regex_key in self.content_regexes.index.values.tolist():
@@ -72,7 +71,6 @@ class Extractor(object):
 
                     bio_df = filter_bios_with_contain_regex(content_filtered_bios, SENTENCE_CONTENT_COL,
                                                             reg['regex'])
-                    count+=1
                     if not bio_df.empty:
                         bio_df[SUPPORT_WORDS_SCORE] = bio_df[SENTENCE_CONTENT_COL].apply(
                             lambda x: self.count_score(x, reg['PA']))
@@ -83,7 +81,6 @@ class Extractor(object):
                         bio_df[SPECIALTIES_COL] = DataFrame([reg['SP']] * len(bio_df.attorneyBio.values)).values
                         bio_df[REG_SCORE_COL] = DataFrame([reg['REG score']] * len(bio_df.attorneyBio.values)).values
                         result.append(bio_df)
-        print("Count: " + str(count))
         if result:
             return self.group_data(concat(result))
         return DataFrame()
@@ -97,11 +94,11 @@ class Extractor(object):
         return score
 
     def bio_df_sentence_tokenizing(self, df):
-        '''
+        """
         :param df: DataFrame
         :return: DataFrame containing sentence splitted biographies. Each row contains bio url,
         separated sentence and its index.
-        '''
+        """
         splitted_bios = concat([Series(row[PROFILE_URL_COL], sentences_splitter(row[FULL_BIO_COL]))
                                 for _, row in df.iterrows()]).reset_index()
         splitted_bios.columns = [FULL_BIO_COL, PROFILE_URL_COL]
@@ -109,10 +106,10 @@ class Extractor(object):
         return splitted_bios
 
     def group_data(self, filtered_bios_df):
-        '''
+        """
         :param filtered_bios_df: DataFrame
         Method filters rows with the same practice areas and specialties according to max score value.
-        '''
+        """
         filtered_bios_df = filtered_bios_df.convert_objects(convert_numeric=True)
         filtered_bios_df[REG_SCORE_COL] = filtered_bios_df[REG_SCORE_COL] + filtered_bios_df[SUPPORT_WORDS_SCORE] + \
                                           (filtered_bios_df[REG_SCORE_COL] / filtered_bios_df[SENTENCE_INDEX_COL])
@@ -135,10 +132,10 @@ class Extractor(object):
         return self.count_result(grouped_bios)
 
     def count_result(self, grouped_df):
-        '''
+        """
         :param grouped_df: DataFrame
         Method counts sum score for every practice area and removes unappropriate practice areas
-        '''
+        """
 
         cols_to_join = [SPECIALTIES_COL, PRACTICE_AREAS_COL, PRACTICE_AREAS_SCORE_COL]
         grouped_df['practice_area_info'] = join_df_cols(grouped_df, cols_to_join)
@@ -167,12 +164,12 @@ class Extractor(object):
         return grouped_bios
 
     def remove_conflicts(self, sentence_info):
-        '''
+        """
         :param sentence_info: tuple, that contains information gotten for certain sentence: sets of speciality, practice
          area and practice area score
         :return: filtered tuple of tuples
         method removes potential practice areas that are incompatible with other selections.
-        '''
+        """
         specialties = [value[0] for value in sentence_info]
 
         conflict_groups = {key: [] for key in set(specialties) if key}
@@ -194,10 +191,10 @@ class Extractor(object):
         return unconflict_groups
 
     def filter_by_practice_area_score(self, data_frame):
-        '''
+        """
         :param data_frame:
         :return:
-        '''
+        """
         max_scored_limit = 2
         sorted_data = sorted(set(data_frame), key=lambda x: int(x[2]), reverse=True)
         # print(sorted_data)
